@@ -1,0 +1,29 @@
+* IF...ELSE
+    1. 
+    if condition
+        code...
+    elsif condition
+        code...
+    else
+        code...
+    end
+
+    1.1. code if condtion
+        run the code if the condtion satifises.
+
+    2. unless condition
+        code...
+    else
+        code...
+    end
+    
+    2.1. code unless condition
+        run the code if the condition is false.
+
+    3. case expression
+    when express [, expression ...]
+        code...
+    when expr2 [, expr3..]
+        code...
+    else
+        code...

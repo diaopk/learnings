@@ -1,0 +1,17 @@
+c-b : forward
+c-f : backward
+c-p : up
+c-n : down
+
+m-b : 
+m-f :
+m-p :
+m-n :
+
+m-< : Move to the begining of the file
+m-> : Move to the end of the file
+
+Accepted numbric argument
+	c-u + digit + coommand
+
+

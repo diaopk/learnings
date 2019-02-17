@@ -1,0 +1,231 @@
+/* List a list of command here */
+su: (change the user)
+
+// FILE COMMAND GOSE HERE
+chgrp: change the file's permission for group
+chown: change the file's permission for file's owner
+chmod: change the file's permission
+umask: the number that will divide when creating a new file or directory
+chattr: set a special attribute with a file.
+lsattr: view the file set with a special attribute
+---Special permission-----
+SetUID--SUID:4
+SetGID--SGID:2
+Sticky Bit:1
+groups : check groups
+newgrp : change the effective group
+
+useradd : add a new user
+	- u : UID
+	- g : GID
+	- d : set the main directory(required to use absolute path)
+	- D : check the default settings for user creation(see /etc/default/useradd)
+
+passwd : assign a password for a new user
+	- userName
+
+usermod : Change the mode for a user
+	-c : dscription
+	-d : directory
+	Please check man
+
+userdel : delete a user
+
+finger : report all info of a usedr
+id : list all id like UID and GID
+cd: change directory
+rm: remove
+pwd: printing working directory
+mkdir: make a directory
+cp: copy
+rm: remove
+mv: move
+rename: rename the file or directory
+basename: basename of the file
+dirname: the name of the directory
+ln : create a link file
+  -i : hard link, create a same file same inode 
+  -s : soft link, different file with same content. two files with the same inode
+
+// CHECK FILE CONTENT
+cat: view from the first line
+tac: view from the last line
+nl: show the line number when viewing
+more: view page by page
+less: simular as more
+head: show a few lines on the head
+tail: show a few lines at the end
+which: show full name and path of a command
+file: show file type and some relative information
+type: show information of a command
+whereis: find file or content
+locate: find file or content that its information stored in /var/lib/mlocate and display a list of 		file depend upon the keyword a user type.
+
+// System Command
+updatedb: update db file from /var/lib/mlocate accroding to the setting of updatedb.conf
+fdisk : 
+mkfs : format a disk, create a filesystem
+df : report the file system usage on the screen.
+du : report how a specified location use on the hard disk.
+parted : report how a specified location use on the hard disk that is more than 2TB.
+netstat : report the usage of service ports
+at : schedule a job at the specified time
+atq, atrm : cencel the job
+crontab : schedule a job that runs every single specified time
+free : check the usage of memory(display different -b -m -g)
+    - swap : like a external memory
+    
+    // on mac machine
+    - top: check the resource usage
+uptime : simply check the system run time
+netstat : check the external and internal network
+    - internal network means that every file can communicate with other files, like using > write something to other files 
+      the connection between files is recorded by socket file, which normally stored in /tmp/..
+    - external network agurements are easy
+    - internal network arguements are the following:
+        - proto : protocol normally unix
+        - ReCnt : the number of socket files connecting to this process, this process can be seen in the path
+        - Flags : 
+        - Type : stream and DGRAM..i don't know yet
+        - Path : 
+
+dmesg : list the information of kernel
+vmstat : check the resource's usage memory
+    - [deley times] : every delay seconds to check how many times
+    - ...
+
+    - procs
+        - r : the number process waiting for to be run
+        - b : the number of process that cannot be awake
+          those two indicates how busy the system is
+    - memory
+        - si/so write in / put out from swap
+        - bi/bo wirite n/ put our from disk
+    - System
+        - in : the number of process to be stopped
+        - cs : the number of process to exchange per second
+    - CPU
+        - us : the usage of CPU away from kernel
+        - sy : the usage of CPU within kernel
+        - id : free state
+        - wa : I/O waiting for  CPU
+
+fuser : check what files are using the specific file
+    -u : list the process's owner
+    -v : list the completed info
+ pidof : print the relative PID to the specific process_name
+
+parted : a text-based tool that supports both MBR and GPT
+gparted : A graphical version of parted
+fdisk : a traditional text-based Linux disk paritioning tool
+gdisk : a version of fdisk that ONLY support GPT
+blkid : get the attributes about attached devcies
+lsblk
+mount : mount a filesytem
+    -r : mount a filesystem in read-only mode
+    -n : mount a filesystem without writing in /etc/mtab 
+    -t : type
+
+    -o : add some long options
+        exec, noexec
+        suid, nosuid
+        ro : the same as -r
+        rw : in read and write mode
+        conv=rule : (FAT-based filesystem) Converts the newline characters in files based on rule
+                            , which can be binary, text, or auto. The default is binary, which disables any character translation
+
+fsck : to check and repaire the filesystem This command is relative to /lost+found 
+free : to check the usage of RAM
+
+
+// Redirect files
+< :[Input] Get input or content from a existing file.
+> : [Output] Send output or content to a new file.
+./programFile < inputFile > outputFile : Get Content of inputFile and save it copy to the new file called outputFile.
+
+Install applictions:
+	tar : tar -zxvf [file name]
+	rpm : [app store] install ./path
+	tar.bz2 : tar -xjf [file name]
+
+Regular expression:
+	grep :
+	-n : show the color when found 
+	-v : search from the reveal
+
+	^word : word to be first
+	word$ : word to be tail
+	a.a : search for a word that can have a*a but not aa(* can be any char)
+	as* : search for a word that can have the ultimate number of s following by a
+	a[abc]d : search for a word that have any one of the abc
+	a[0-9]b : search for a word that have any number of 0-9
+
+Stream Editor:
+	sed : sed [-nefr] [function]
+	functions:
+		a : add content
+		c : replace
+		d : delete
+		i : insert
+		p : print
+		s : replace..
+
+    diff : compare with two files
+    
+
+/* Vim */
+h: left
+j: down
+k: up
+l: right
+
+:q! : quit without save changes
+x : delete
+i : insertion mode
+:wq : save a file and exit
+
+dw : delete a single word and go to the start of the next word
+de : delete a single word and go to the end of the next word
+d$ : delete a whole line
+dd : delete a whole line and go to the next line
+2dd : delete two lines and go to the next line
+w : go to the start of the next word
+e : go to the end of the next word
+u : undo the last command
+U : undo all the changes on a line
+CTRL-R : undo the undo's
+p : put previously deleted text after the cursor
+r : replace
+ce : delete and go to the insertion mode(change), can be adding a number after c
+yy : yank the whole line 
+nyy : yank the number of n lines
+Ctrl+y : yank a square of field
+
+G : move you to the bottom of the file
+gg : move you to the start of the file
+CRTL G to show your location in the file and the file status
+/ : search for the phrase 
+n : search for the same phrase below the contents again
+N : search for the same phrase above the contents again
+:set ic : set ignore case(不区分大小写)
+:set hls is : highlighted the searching words
+:set noic or nohls nois : unset the above setting
+:set nu : display the number of line
+:set nonu : undisplay the number of line
+
+% : fine a matching ),},] or ....
+:s/old/new/g : subbstitute 'new' for 'old' //g means to substitute globally in the line, change all occurrences of 'old' in the line. gc means confirmation for substituting the whole file.(:%s/old/new/g...)
+:! following a command : runs an externel command to execute that command
+:w : save the changes made to the text and name it
+:'<,'> : ....I don't know..
+:r read the file. // We can read the output of an externel command. For example, :r !ls
+:sp{fileName} : open a file on the same screen
+:r{fileName} : read the file
+
+o : open up a new line Below the cursor
+O : open up a new line Above the cursor
+a : go to the insertion mode After the cursor
+A : insert after the end of the line
+R : go to the replace mode(replace mode is like insertion mode, but every typed characters deletes exciting characters)
+y : yank copy(it can use yw to yank a word or use v to select words to yank)
+p : paste

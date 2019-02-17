@@ -1,0 +1,39 @@
+== Info:   Trying 2620:0:862:ed1a::1...
+== Info: TCP_NODELAY set
+== Info: Connected to www.wikipedia.org (2620:0:862:ed1a::1) port 80 (#0)
+=> Send header, 81 bytes (0x51)
+0000: GET / HTTP/1.1
+0010: Host: www.wikipedia.org
+0029: User-Agent: curl/7.53.1
+0042: Accept: */*
+004f: 
+<= Recv header, 27 bytes (0x1b)
+0000: HTTP/1.1 301 TLS Redirect
+<= Recv header, 37 bytes (0x25)
+0000: Date: Sun, 13 Aug 2017 14:58:34 GMT
+<= Recv header, 17 bytes (0x11)
+0000: Server: Varnish
+<= Recv header, 22 bytes (0x16)
+0000: X-Varnish: 206212772
+<= Recv header, 21 bytes (0x15)
+0000: X-Cache: cp3031 int
+<= Recv header, 21 bytes (0x15)
+0000: X-Cache-Status: int
+<= Recv header, 102 bytes (0x66)
+0000: Set-Cookie: WMF-Last-Access=13-Aug-2017;Path=/;HttpOnly;secure;E
+0040: xpires=Thu, 14 Sep 2017 12:00:00 GMT
+<= Recv header, 131 bytes (0x83)
+0000: Set-Cookie: WMF-Last-Access-Global=13-Aug-2017;Path=/;Domain=.wi
+0040: kipedia.org;HttpOnly;secure;Expires=Thu, 14 Sep 2017 12:00:00 GM
+0080: T
+<= Recv header, 54 bytes (0x36)
+0000: X-Client-IP: 2a02:8084:42c1:d700:f982:d95d:1b65:a79f
+<= Recv header, 38 bytes (0x26)
+0000: Location: https://www.wikipedia.org/
+<= Recv header, 19 bytes (0x13)
+0000: Content-Length: 0
+<= Recv header, 24 bytes (0x18)
+0000: Connection: keep-alive
+<= Recv header, 2 bytes (0x2)
+0000: 
+== Info: Connection #0 to host www.wikipedia.org left intact

@@ -1,0 +1,744 @@
+* Linux Directory Hierarchy Essentials
+	/ : root directory
+	        /bin : Contains ready-to-go programs, including most of the 
+                   basic Unix commands formatted as binary files and 
+                   created by C compiler
+        
+        /dev : Contains devices files
+        
+        /etc : This core system configuration contains the user password, 
+               boot, device, networking, and other setup files
+        
+        /lib : This directory contains library files containing code that 
+               executable files can use. Two types static and shared
+        
+        /proc : The directory contains information about currently running 
+                processes as well as some kernel parameters
+        
+        /sys : This directory is similar to /proc in that it provides a 
+               device and system interface.
+        
+        /sbin : Programs in /sbin directories relate to system management,
+                so regular users do not have/sbin components in their 
+                command path
+        
+        /temp : A storage area for smaller, temporary files.
+        
+        /usr : Contains a large directory hierarchy, including the bulk of
+               the Linux system. Many of the directorynames in /usr are 
+               smae as those in the root directory.
+
+            - /usr is where most of the user-space programs and data reside
+              /include : Holds header files used by the C compiler
+              /info : Contains GNU info manual pages
+              /local : Is where administrators can install their own 
+                       software.Its structure should look like that of / 
+                       and /usr
+              /man : Contains manual pages
+              /share : Contains files that should work on other kinds of 
+                       Unix machines with no loss of functionality
+              
+              In the past, networks of machines woudl share this directory,
+              but a true /share is becoming rare because there are no spac
+              issues on modern disks. Maintaining a /share is often just a
+              pain
+
+        /var : The variable subdirectory, where programs record runtime 
+               information. Systemlogging, user tracking, caches, and other
+               files that system programscreate and manage are here.
+        
+        /boot : Contains kernel boot files. These files pertain only to the
+                very first stage of the Linux startup precedure
+            
+            You won't find information about how Linux starts up its 
+            services in the directory
+        
+        /media : A base attachment point for removable media such as flash 
+                 drives that is found in many  distributation
+        
+        /opt : This may contain addintional third-party software. MANY 
+               systems don't use /opt
+        
+* Kernel Location
+    - On Linux systems, the kernel is normally in /vmlinuz or 
+      /boot/vmlinuz(this is a file)
+      
+      A boot loader loads this file into memory and sets it in motion when 
+      the system boots Once the boot loader runs and sets the kernel in motion, the main kernel file is no longer used by the running system.
+
+* Devices
+    /dev
+    - There are four characters b, c, p or s that stand for block
+    , character, pipe and socket.
+        - b : Block device
+            Progeams access data from a block in fixed chucks. 
+            Disks can be easily split up into blocks of data 
+            because a block device's total size is fixed and eas
+            to index, processees have random access to any block
+            in the device with the help of the kernel
+
+        - c : character device
+            can only read and write to this type of device For 
+            example : Printers directly attached to your 
+            computer are represented by character devices.
+            During characters devices interaction, the kernel 
+            cannot back up and re-examine the data stream 
+            after it has passed data to a device or process
+
+        - p : pipe device
+            with another process at the other end of I/O 
+            stream instead of a kernel driver
+
+        - S : socket devoce 
+	
+	- Three directories:
+		/dev : The absulute path to devices
+		/sys/devices : List of info of devices to be viewed
+		/sys/block : List of blocks devices that are symbolic
+        link to /dev
+
+    - udevd : This is a dynamic devices manager
+		- It does not create device files
+		
+        - The user-space process, which is udevd is detecting
+          new devices and creating device if there is new 
+          device coming
+		
+        - After creating a device file then performs any 
+          device initialization a device file can be created 
+          wherever and whenever a user want meaning that 
+          is dengerous.
+        
+        when a new movable device is attached in, the device 
+        file is necessary early in the boot procddure so udev 
+        must start early.
+        It would need to perform its initiail startup very 
+        quickly so that the rest of the system would not get 
+        held up waiting for udevd to start
+	
+    - devtmpfs : This is a filesystem
+		- The devtmpfs was developed in response to the 
+          problem of device availability during OS boot.
+		
+        - The kernel creates device file as neccessary, but 
+          it also notifies udevd that a new device is 
+          available. Upon receiving this signal, udevd does 
+          not create the device files, but it does perform 
+          device initialization and process notification
+		
+        - Before boots up, the kernel handles in creating 
+          device files and notifying udevd that a new device 
+          is available.
+		  
+          Then Upon receiving this signal, udevd will perform 
+          device initialization and process notification.
+		  Additionally, it will create a number of symbolic link 
+          in /dev to further identify devices. Links are in 
+          /dev/disk/by-id
+		
+        - Here is how symbolic links are created
+			- The kernel sends udevd a notification event, called uevent, through an internal network link
+			- udevd loads all of the attributes in the uevent
+			- udevd parse its rules, and it takes actions or sets more attributes based on those rules
+			- After receiving the udev, udevd knows the sysf device path and a number of other attributes.
+			- Rules are stored in /etc/udev/rules.d and /lib/udev/rule.d
+
+	- How a device symbolic link is created
+		- As I said before, the kernel creates device files as neccessary.
+		- The kernel sends udevd a uevent and udevd parses it based on rules.
+		- In processing the uevent, udevd need to check the requirments of rule for the uevent
+		- If the first expression is met then go to the next one until finish all of expressoins, and import a command
+		  from /lib/udev/ata_id to export variables
+		  Run sudo /lib/udev/ata_id --export /dev/sda to see what variables have been exported
+		
+		- After exporting all variables we need, including ID_SERIAL, then udev can go ahead fot next the expression
+	
+	- udevadm : is an administration tool for udevd.
+		- The most powerful features of udevdam are the ability to search for and explore system devices and
+		  the ability to monitor uevent sas udevd receives them from the kernel
+		
+		- udevadm info --qurey=all --name=/dev/sda	
+			P : is the sysfs device path
+			N : is the device node or name
+			S : indicats a symbolic link to the device node
+			E : is additional device information extracted in the udevd rules
+
+	- In-depth: SCSI and the Kernel
+		- Typically, a computer is not directly communicating with devices
+		- A computer commnicates with devices through a SCSI host adapter(SCSI command set)
+		  The host adapter and devcies eacj have an SCSI ID, and there can be 8 or 16 IDs per bus
+          depending on the SCSI version.
+          Therefore, a number of SCSI host adapters that are connecting to devices forms a line of bus
+
+        - Where to see the info of device_id host_adapter_id or something like that
+            [0:0:0:0]    disk    ATA      APPLE SSD SM0128 3A0Q  /dev/sda 
+            [1:0:0:0]    disk    APPLE    SD Card Reader   3.00  /dev/sdb
+
+            - There are four number indicating the following(from left to right):
+              The SCSI host adapter number:
+              the SCSI bus number: 
+              the device SCSI ID: 
+              the LUN number(logical unit number, a further subdivision of device)
+            - As you can see, the kernel assigns different device files to each logical unit
+
+        - driver and interface hierarchy
+          Block device interface(/dev/sda)
+            |
+          SCSI subsystem
+            |------Disk driver(sd)                  The driver here knows how to translate requests from
+            |                                       block device interface into disk-specific commands
+            |------SCSI Protocle and host managment
+            |------ATA bridge
+            |
+          libdata translator
+            |
+          SATA host driver                              The driver here send outgoing SCSI protocol messages to
+            |                                       specific host adapters or hardware, and extract incoming
+            |                                       messages from the hardware
+            |                                       Different host adapters have varying procedure for sending
+            |                                       the same message
+            |
+          SATA disk
+* Filesystem
+    - There are so many filesystem types...
+
+    - mount a filesystem
+        mount -t ext4 /dev/... /home/extra
+        for example, to mount a usb
+            before mount a ubs disk, we have to make a directory in /mnt/
+            mount /dev/sdXXX /mnt/usbXX
+        When finishing mount a usb, a new link for this usb will be stored in /etc/fstab file
+
+    - unmount a filesystem
+        unmount mountpoint in /dev/...
+
+    - Mounting a filesystem depends on device name, which is the order in which the kernel finds the devices
+      Each device have an UUID(Universally Unique Identifier). Use blkid to check them
+
+    - Disk buffering, caching and filesystems
+        - The kernel does not usually immediately write changes to filesystem when processes request changes.
+          Instead it stores the changes in RAM until the kernel can conveniently make the actual change to the disk
+
+        - If users want to force the kernel to run the specific changes to the disk
+          Run sync command to do that
+
+    - /etc/fstab
+        This is a filesystem table. Linux systems keep a permanent list of filesystem and options in /etc/fstab
+    
+    - Special-Purpose Filesystems
+        Not all filesystems represent stroage on physical media.
+        Most version of Unix have filesystems that serve as system interfaces. This is, rather thanserving only
+        as a means to store data on a device, a filesystem can represent system information such as process IDs and
+        kernel diagnostics.
+
+        - /proc : Each numbered directories inside /proc is actually the process ID of a current process on the system
+              ; the files in those directories represent various aspects of the process.
+              The file /proc/self represents the current process.
+
+        - /sysfs
+
+    - Swap Space : If you run out of real memory, the Linux 
+      virtual memory system can automatically move pieces of 
+      memory to and from a disk storage
+
+        - mkswap, swapon commands may be used after make a swap 
+          parition
+        
+        - How much Swap do we need According to the Unix 
+          conventional wisdom, it always reserve at least twice 
+          as much swap as we have real memory The 'double the 
+          real memory' rule dated from a time when multiple users
+          would logged into one machine at a time
+    
+    - Disks and User Space
+        The kernel handles raw block I/O from the devices, and 
+        user-space tools can use the block I/O through device 
+        files. However, user space typically uses the block I/O 
+        only for initializing operations such as partitioning, 
+        filesystem creation, and swap space creation. In normal 
+        use, user space uses only the filesystem support that the
+        kernel provides on top of the block I/O.
+    
+    - inodes
+        - inode is a set of data that describees a particular fil
+          e, including its type, permission, and where in the 
+          data pool the file data reside.
+        
+        - Filenames and directories are also implemented as 
+          inodes.
+        
+        - A directory inode contains a list of filenames and 
+          corresponding links to other inodes
+        
+        - To view inode details, we use ls -i
+        
+        - Links count is the number of other files linking to 
+          this file
+        
+        - For example
+            to remove a file is something called unlinking
+            if we run rm /dir/filename, the kernel searches for 
+            an entry nameed filename in /dir in inodes, let's say
+            15's directory entires. Upon finding that filename 
+            correesponds to inode 15, the kernel removes the 
+            directory entry and then substract 1 from the number 
+            of link count linking to inode 15. If 15's link count
+            will be 0, and the kernel knows that there are no 
+            longer any names linking to this inode. Therefore, it
+            can now delete the 15 inode and data associated with
+            it.
+
+        - It may happen that an inode does not match the data 
+          being allocated when the system does not shutdown 
+          cleanly.
+
+
+* acounts info
+  - Every file is identified by the UserID and GroupID
+  - Check the /etc/passwd UID can be classified as the following:
+    0 : - root
+    1 ~ 499 : System accounts
+    500 ~ xxx : Loginable accounts
+	
+	- Check the /etc/shadow
+		- this is the directory storing account passwd
+		
+        - : sign used to divide components
+		
+        - first one is the file name, second is the password this
+          case it is using different techique to encryt it, third
+          is the most recent data that changeing the password
+          (addition from 01.01.1970, days adding day by day). 
+          These three one are the most important details see 
+          P404 on Niaoge
+
+        - The following is desribed by Page of 154 'How Linux works'
+          - The Username
+          - An x in the second file field indicates that the 
+            encrypted password is stored in the /etc/shadow
+            A star(*) indicates that the user cannot login in, and
+            the field is blank(that is, ::), no password is required
+            to login.(Beware of blank passwords. You should never
+            have a user without password)
+	
+	- Check the /etc/group 
+		this is the directory to store groups
+		- file name
+		- group password basically it doesn't need a pass
+		- GID groupID
+
+	- Effrctive group is the group that every operation will be 
+      processed in this group when login once
+
+	- Once a new user created, it has to be assigned a new 
+      password. If a unloginable account want to use the resource
+      in OS, check /etc/nologin	
+
+* Processes
+    - When login successfully, a shell of Bash is given to user. 
+      And this Bash is the root process, which is every process's
+      supper_process.
+    
+    - Processes are given PID(ProcessID)s and these processes are
+      build through super_processes because the process to create
+      a new process is that:
+        - Copy the whole sttuf from the super_process
+        - Generate a new PPID copied from PID
+        - Generate a new PID
+        - Replace the previous process with the new one
+
+    - Therefor a PID can be a PPID of chil_processes
+
+* Bash Preference
+    - Any user can have their own perferred setting by modifying
+      ~/.bashrc
+
+* Jobs Control
+    - Any job can be put into backgroud and put back to foregroud
+        - Here we are using '&' after commands to put them to 
+          backgroud
+        - Suspend jobs by using <c-z>
+        - command 'jobs' to display jobs in the backgroud
+            -l : list all info of jobs in backgroud
+            -r : list jobs running in the backgroud
+            -s : list jobs are stopped
+
+    - Putting jobs to foregroud
+        - 'fg' + %jobNumber
+
+    - Leting jobs to run in the backgroud
+        - bg + %jobNumber
+
+    - jobs in the backgroud can be running or stopped
+
+    - Kill the jobs
+        -signal -%jobNumber
+        - signal:
+            -1 : reload the etc file restart
+            -9 : force to kill a process
+            -15 : normally kill a process
+
+    - killall : kill processes containing a specific command
+        -i : ask user
+        -e : excat command name
+        -l :
+
+    * Off-line processes mangement
+        - use at or nohup + & after commands
+
+* Jobs Mangement
+    - ps : to check processes
+        -l : check current user's processes
+        aux : check all users' processes
+
+        - F : process premission
+        
+        - s : state,r(running), s(sleep), t(stop), z(zombie), 
+          d(can't be awake)
+        
+        - pri : Priority, this is a number the less the easy to 
+          be executed by OS
+        
+        - ADDR : this is kernel function. indicates which part of
+          memory it is located
+        
+        - TTY : 
+        
+        - Time : the period of time how long a process use memory
+        
+        - CMD : indicates which command is executed
+
+    - top : to dynamicly check processes
+        -d num : every num second the os will check processes
+        -bn : execute how many time needed
+        -p : specify a process to be executed
+        
+        - in the period of execution, press:
+            ? : list commands can be used
+            p : sort by the useage of CPU
+            M : sort by momery
+            N : sort by PID
+            T : sort by time
+            k : give a process a signal
+            r : give a process a new nice
+            q : qiut
+
+* Special files and programs
+    - SUID/SGID
+        - A root's permission program is activtated by a non-root
+          user then this user obtain the root's permission of 
+          this actived file
+
+    - Processes are stored in the /proc/ directory depand upon 
+      their PID as sub-directory's name
+
+* SELinux
+    - Security Enhanced Linux
+    
+    - SELinux acts a operation to protect objects to be modified
+      out of permission
+    
+    - Every subject has rwx three permissions. These subjects can
+      be processes, commands and files.
+      
+      To protect objects, SELinux limits these subjects to modify
+      other subjects
+
+* Kernel Boots
+	- A simplified view of the boot process looks like this:
+	  1. The machine's BIOS or boot firmware loads and runs a 
+         boot loader.
+	  2. The boot loader finds the kernel image on disk, loads it
+         into memory. 
+      3. The kernel initialises the devies and its drivers.
+      4. The kernel mounts the root filesystem.
+      5. The kernel starts a program called 'init' with a proces
+         ID of 1. This points is the user space.
+      6. 'init' sets the rest of the system processes in motion.
+      7. At some points, 'init' starts a process allowing you to
+         login, usually at the end or near the end of the boot.
+
+    - Boot loaders
+        - Basic
+            - On PCs, boot loaders use the Basic Input/Output System(BIOs) 
+              or Extensible Firmware Interface(UEFI) to access disks.
+            
+            - Boot loaders are equiped with built-in support to check the 
+              partition table and access to its filesystem.
+            
+            - When the boot loader access to the disk, first thing it need
+              to do is finding the root partition and its boot
+              configuration file. In the GRUB(a type of boot load) menu, 
+              type 'set' and locate the line precedding 'prefix' then 
+              there is the location of the boot configuration file.
+              The boot configuration file should be called 'Grub.cfg'
+            
+            - There are useful commands in grub prompt. tab to see them.
+            
+            - There are two main boot schames, MBR and UEFI.
+                - Master Boot Record(MBR) is the small area located in the 
+                  beginning of the disk. It usually is 441 bytes.
+                  because it is too little, in this case, the iniilial
+                  piece of code does nothing other than loads the rest of
+                  the boot loader code. However, the remaining pieces of 
+                  the boot loader are usually sruffed into the space 
+                  between the MBR and the first partition on the disk.
+                
+                - For UEFI, booting is radically different on it systems
+                  and, for the most part, much easier to understand. Rather
+                  than executable boot code residing outside of a
+                  filesystem. There is always a special filesystem called
+                  the EFI System Partition(ESP), which contains a directory
+                  called efi. Each boot loader has its own identifier and
+                  correspounding subdirectories.
+
+    - How GRUB works
+        - Processes
+            1. The PC BIOS or firmware initialises the hardware and
+               searches its boot-order storage devices for boot code.
+            2. Upon finding the boot code, the BIOS/firmware loads and 
+               executes it. This is where GRUB begins
+            3. The GRUB core starts.
+            4. The core initialises. At this point, GRUB can now access 
+               disks and filesystem.
+            5. GRUB identifies its partition and loads a configuration 
+               there.
+            6. GRUB gives the user a chance to change the configuration.
+            7. After a timeout or user action. GRUB executes the 
+               ocnfiguration based on the sequece in grub.cfg
+            8. In the course of executing the configuration. GRUB may load
+               additional code(modules) in te boot partition.
+            9. GRUB executes a boot command to load and execute the kernel
+               as specified by the configuration's linux command.
+
+        - Notes
+            - In all cases except where you have an ESP, the PC BIOS loads
+              512 bytes from the MBR, and that is where GRUB starts. This 
+              little piece is not yet the core, but it contains the start
+              location of the core and loads the core from this point.
+            - If you have an ESP , the GRUB core goes there as a file. The 
+              firmware can navigate the ESP and directly execute the GRUB
+              core or any other operating system loader located there.
+
+* Init - The first program running in the system
+    The init is a kind of program that is user-space program like any other
+    program on the Linux system, and you will find it in /sbin along with 
+    many of the other system binaries.
+
+    - It basically has two main implementations
+        - systemd
+            - systems is goal oriented. You should define a target that you
+              want to achieve, along with its dependencies, and when you 
+              want to reach the target.
+
+            - Units and unit types
+                - Service unit: Control the traditional service daemons on
+                  a Unix system.
+                - Mount unit: Control the attachment of filesystem to the 
+                  system.
+                - Target unit: Control other units, usually by groupingThem
+
+            - Systemd Dependencies
+                - Page 116 of 'How Linux Works'
+                - Dependency types
+                    - Require: Strict dependencies. When activating a unit
+                      with Requirs dependencies unit, systemd attemps to 
+                      activate the dependency unit. If the dependency unit 
+                      fails, systemd deactivates the dependent unit.
+
+                    - Wants: Dependencies for activation only. Upon
+                      activating a unit, systemd activates the unit's Wants
+                      dependencies, but it doesn't care if those 
+                      dependencies fail.
+
+                    - Requisite: Units that must already be active. Before
+                      activating a unit with Requisite dependency. systemd
+                      first checks the status of the dependencies. If the
+                      dependency has not been activated, systemd fails on
+                      activatation of the unit with the dependency.
+
+                    - Conficts: Negative dependencies. When activating a
+                      unit with a Confilct dependency, systemd 
+                      automatically deactivates the dependency if it is 
+                      active. Simultaneous activation of two confilcting
+                      units fails.
+
+            - Systemd Configuration
+                - Page 119 of 'How Linux works'
+                - Configuration file location
+                    - Global: /usr/lib/systemd/system
+                    - Local: /etc/systemd/system
+
+                - If a unit file has [install] section, enable it before
+                  activating it. When enabling it, systemd creates a 
+                  symbolic link to the system configuration directory 
+                  depending on what kind of data in the [install] section.
+
+                - Adding Units to systemd
+                    - Units should be placed into /etc/systemd/system
+                    - Type systemctl start/stop/restart/disable/enble to 
+                      control them.
+
+        - upstart
+
+* System Configuration
+    - Scheduling jobs
+        - cron
+        - at
+
+* Relationships between ps, kernel and resources
+   - Chapter 8 of "How Linux Works"
+   Some Commands:
+   - ps: list processes
+   - top, htop and atop: Tracking monitoring processes
+   - lsof: list open file
+   - strace, ltrace: Tracking program Execution and system calls
+   - uptime: Display the load average number
+   - free: Check system's memory status
+
+   - Memory
+    - MMU: a CPU has a memory management unit(mmu) that
+      translates the virtual memory addresses used by processes
+      into real ones.
+
+    - Types of paging method
+        - demand paging
+
+    - Page Faults
+        - Minor Page Fault
+        - Major Page Fault
+
+    - commands
+        - vmstat: check the virtual memory stat
+        - iostat: check the IO stat
+
+* Network and its Configuration
+    - Some basics
+        - host: Each machine connected to the network.
+        
+        - router: The hosts are connected to a router, which is a
+          host that can move data from one network to another.
+        
+        - packets: A computer transmits data over a network in
+          small chunks called packets, which consist of two parts
+          header and a payload.
+        
+        - Subnet: The Internet's topology is decentralised; it's
+          made up of smaller networks called subnets.
+          A subnet is a connected group ofhosts with IP addresses
+          in some sort of order. You define a subnet with two
+          pieces: a network prefix and a subnet mask. If create a
+          subnet containing IP addresses between 192.168.122.1
+          and 192.168.122.254. The network prefix is 
+          192.168.122.0 and the network mask is 255.255.255.0.
+        
+    - Network Layers
+        - Application layer
+        - Transport layer
+        - Network or Internet Lyare
+        - Pyhsical layer
+
+        - Internet Uplinks
+            - IP addresses are not actually visible to the
+              outside of the whole Internet. They can be called
+              private networks. To providefor Internet 
+              connectivity, a router must be set up a Network 
+              Address Translation(NAT).
+
+    - NetworkManager Configuration
+        - Go to the page 203 of " How Linux works".
+
+    - The Transport Layer
+        - Some Basics
+            - Two most popular transport protocols are 
+              Transmission Control Protocol(TCP)
+              User Datagram Protocol(UDP)
+
+            - With using TCP, an application opens a conecction
+              between one port on its own machine and a port on a
+              remote host.
+
+            - There must be a port for listening and a port for 
+              connecting. listening port called the server and
+              connecting port called the client.
+
+            - To view well-known ports in /etc/services. 
+              su: port 1 thorugh 1023
+              all: port 1024 ~
+
+    - Wireless Ethernet
+        - Transmission details: These are pyhsical characteistice
+          such as the radio frequency.
+
+        - Network identification: SSID(Service Set Identifier, 
+          known as the network name) is the wireless networkID.
+
+        - Management: Access points
+        - Authentication
+        - Encryption
+
+    - Some commands
+        - ifconfig: View computer's IP address.
+        - route: Build a gateway.
+        - ping: Check connection by Looping back.
+        - traceroute: 
+        - host: translate DNS into IP address.
+        - nm-cli: Control the NetworkManager from command line.
+        - netstat: View the connections currently open locally.
+        - arp: To View machine's ARP cache.
+        - iw: manage WiFi device and configuration.
+
+* Network Applications And Services
+    - Commands
+        - curl --trace-ascii trace_file_name 
+          http://www.wikipedia.org/ Generates a file with some 
+          TCP connection details.
+
+    - How network server works
+        - At least one process listens on a network port, and 
+          when a new incoming connection si receviced, the 
+          listening process uses fork() to create a new child 
+          process, which is then responsible for the new 
+          connection. The child, often called a worker process,
+          terminates when the connnection is closed.
+
+        - Sockets
+            - Sockets are the interface that processes use to 
+              access the network through the kernel.
+
+            - For example: The master process uses the listening
+              socket to look for connections from the network. 
+              When a new connection comes in, the master process
+              uses the accetp() system call to accept the 
+              connection. Next, the master process uses fork() to
+              create a new child process to deal with the 
+              connection. Finally, the origional socket remains
+              the listener and continue to look for more 
+              connections on behalf of the master process.
+
+    - SSH
+        - Secure Shell(SSH) allows secure shell logins, remote 
+          program execution, simple file sharing, and more.
+
+        - OpenSSH client is ssh, and the server is sshd.
+
+        - There are public keys and private keys. For the ssh v1
+          it has RSA keys only, and version 2 has RSA and DSA 
+          keys.
+        
+        - /etc/sshd_config and /etc/ssh_config
+            - /etc/sshd_config
+                - ssh-keygen: create a hostkey.
+                - chkconfig sshd on: check the SSH server is on
+                - service sshd start: start the sshd server.
+
+            - /etc/ssh_config
+                - ssh remote_username@host: to login the remote 
+                  host.
+
+        - Some commands
+            - ssh remote_username@host: to login the remote host.
+            - tar zcvf - dir | ssh remote_username@host tar zxvf
+            - scp and sftp: SSH file transfer clients.
+            - tcpdump: view what is crossing your network.
+            - netcat

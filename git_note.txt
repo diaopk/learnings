@@ -1,0 +1,14 @@
+This file covers something about Git
+# command to push a repo from a exsiting project
+git push --set-upstream https://gitlab.com/junli.liang4/cloud-project-dbserver.git master
+
+- git pull = git fetch + git merge
+- git fetch <remote>: fetch all of the branches from the reposotory.
+- git fetch <remote> <branch>: fetch only the specific branch
+- <<<<
+  
+  ====
+
+  >>>>
+
+  # every contents between <<< and >>> are recorded in master

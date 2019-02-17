@@ -1,0 +1,132 @@
+- AJAX
+  - Asynchronous Javascript & XML
+  - Send and Receive data asynchronous between clients and servers
+  - Make async requests in the background, which is faster and ...
+  - Disgram shown how the AJAX works
+
+    |==============Server==============|
+          ^               ^         |
+          |               |         |
+          |         XmlHttpRequest  |
+          |               |     XML / JSON
+    Common Request        |         |
+    & Reponse             |         v
+          |           |===AJAX Engine==|
+          |               ^         |
+          |               |         |
+          |             JS Call     |
+          |               |    HTML Reponse
+          |               |         |
+          v               |         v
+    |=========== Client ===============|
+
+  - XmlHttpRequest(XHF) Object
+    - core tech in AJAX provied by the all browser
+    - can be used to other protocols
+
+- Other Methods & Libraries
+  - Fetch API
+    - Part of the js
+  - Axios
+  - Superagent
+  - jQuery
+  - Node HTTP
+
+- Use
+  - For example
+    // readySatet values
+    // 0 : request not initialized
+    // 1 : server connection established
+    // 3 : request received
+    // 4 : processing request
+
+    // create a XHR object
+    const xhr = new XMLHttpRequest();
+
+    // Open - read the file or url
+    xhr.open('GET', 'data.txt', true);
+
+    // Optional: used for spinner/loader
+    xhr.onprogress = function() {}
+
+    // new stntax
+    // onload can only be called when its on readyState 4
+    xhr.onload = function() {
+      // this is reference of AJAX object
+      if (this.status === 200) {
+
+      }
+    }
+
+    // old syntax
+    xhr.onreadystatechange = function() {
+      if (this.status === 200 && this readyState === 4) {
+      
+      }
+    }
+
+    // error handling
+    xhr.onerror = function() {}
+
+    // send 
+    xhr.send();
+
+  - Example for Fetch API
+    function getExternal() {
+      // fetch function is built in js
+      fetch('url')
+      .then(function(res) {   // Handling successful resquest and response
+        return res.json();
+      })
+      .then(function() {      // Its possible to use more than one then()
+
+      })
+      .catch(function(err) {  // Its function to handle errors
+        console.log(err);
+      });
+    }
+  
+- JSON
+  - some 
+  - For example
+    {
+      "id": 1,
+      "name": "Junli Liang",
+    }
+
+    // Array of JSON objects
+    [
+      {
+        "id": 1,
+        "name": "Yingzhi Yang",
+      }
+    ]
+
+    // Example with AJAX and JSON
+    function loadCustomer(e) {
+      const xhr = new XMLHttpRequest();
+
+      // get the file from external
+      xhr.open('GET', 'source_file_.txt', true);
+
+      xhr.onload = function() {
+        if (this.status === 200) {
+          
+          // The customer then becomes a object parsed from JSON
+          const customer = JSON.parse(this.responseText);
+
+          const output = `
+            <ul>
+              <li>ID: ${customer.id}</li>
+              <li>Name: ${customer.name}</li>
+              <li>Car: ${customer.car}</li>
+            </ul>
+          `;
+
+          // insert new elements to the html file
+          document.getElementById('someid').innerHTML = output;
+        }
+      }
+
+      xhr.send();
+    }

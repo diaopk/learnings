@@ -1,0 +1,20 @@
+- indexing and slicing
+  import pandas as pd
+  x = pd.read_csv()
+  
+  # assume x is 2d array/dataframe
+  # get the first row
+  x.iloc[0]
+
+  # get the first two rows
+  # with .iloc[row_number]
+  x.iloc[[0, 1]]
+  x.iloc[:2]
+
+  # get the data in first row of first column
+  x.iloc[0][0]
+  x.iloc[0]['column_name']
+
+- Selecting and locating
+  # select rows based on a value
+  x.loc[x[colunm_name] == value]

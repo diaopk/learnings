@@ -1,0 +1,10 @@
+setup as following:
+	update
+	jdk_oracle
+	scala
+	eclipse
+	jetBrain
+	lamp_setup
+	vim_plgugin
+	gcc, gcc-c++
+

@@ -1,0 +1,20 @@
+- rails
+  # generate a controller called StaticPages with function home
+  rails generate controller StaticPages home ...
+
+  # gnereate a model User with Attri name and email in string
+  rails generate model User name:string email:string
+
+  # drop a model
+  rails destroy model User
+
+  # DB
+  # Migrate changes to the state of the databases
+  rails db:migrate
+
+  # unde a single migration
+  rails db:rollback
+  rails db:migrate VERSION=0
+
+  # enter the db shell
+  rails db

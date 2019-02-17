@@ -1,0 +1,12 @@
+- basic use
+  - split
+    - :vsp, :sp
+    - ctl+h/j/k/l to navigate in split mode 
+    - swap top/bottom or left/right split: 
+      ctl+w R
+    - break out current window into a new tabview:
+      ctl+w T
+    - close every window in the current tabview but the current one
+      ctl+w o
+  - navigate through tabs
+    - gt

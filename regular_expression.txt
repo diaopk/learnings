@@ -1,0 +1,19 @@
+# Regular Expression tested in php
+
+* Quantifiers
+    - p+ : Contains at least one p
+    - p* : Contains zero or more p
+    - p? : 
+    - p{N} : Contains a number of p
+    - p{2, 3} : Contains 2 or 3 of p
+    - p{2,} : Contains at least 2 p
+    - ^p : Contain 'p' at the head
+    - p$ : Contains 'p' at the end
+
+* Exception
+    - [^a-zA-Z] : Not contains any character at the head
+        ^ : ^ here means negation
+    - ^.{2}$ : Only contains 2 charactersp
+    - <b>(.*)</b> : Matches any string enclosed within <b> and </b>
+    - p(hp)* : Matches any string containing 'p' and followed by zero or 
+      more number of hp

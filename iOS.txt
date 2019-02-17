@@ -1,0 +1,66 @@
+// Some APIs
+
+* UIBeizer: 
+
+* CG - Core Graphic framework
+
+* AutoLayout
+    - AutoLayout in code is actually a equality that shows the relationship amoung objects
+    - Auto Layout Attributes
+                   |---Width----|
+                   |            |
+                   |    Top     |
+        -----------|-----|------|
+         |         |     |      |
+         |         |     |      |
+       Height Leading--Content-----Trailling
+         |         |     |      |
+         |         |-----|------|----------BaseLine
+        -----------------|------|
+                         |
+                       Bottom
+    - For example
+      The formaluar is item1.attribute = Multiplier * item2.attribute + Constant
+      The goal is to provide a series of equations that have one and only one possible
+      solution.
+      we have two boxes placed side by side
+      then we the following equalities
+
+      // Vertical Constraints
+      red.top = 1.0 * superview.top + 20.0
+      superview.bottom = 1.0 * red.bottom + 20.0
+      blue.top = 1.0 * superview + 20.0
+      superview.bottom = 1.0 * blue.bottom + 20.0
+
+      // Horizontal Constrains
+      red.leading = 1.0 * superview.leading + 20.0
+      blue.leading = 1.0 * red.trailing + 8.0
+      superview.trailing = 1.0 * blue.trailing + 20.0
+      red.width = 1.0 blue.width.0.0
+
+      // Equations above provide nonambiugous and ....solution
+
+    - layout attributes are defined in NSLayoutConstraint class:
+        - NSLayoutAttribute.left...
+    - to create a constraint in code we use its initializer
+        - NSLayoutConstraint(item, attribute, relatedBy, toItem, attribute, multiplier, constant)
+
+    - LayoutGuide
+        - continued...
+
+* View and Control
+  - UISegmentedControl
+    - A horizontal control made of multiple segments, each segment functioning as dis
+      crete button
+
+* View Controller Lifecycle
+  - order of execution
+    - Instantiated (from storyboard usually)
+    - awakeFromNib (Only if instantiated from a storyboard)
+    - aegue preparation
+    - outlets get set
+    - viewDidLoad()
+    - viewWillAppear() and viewDidAppear()
+    - viewWillDisappear() and viewDidDisappear()
+    - viewWillLayoutSubviews() and viewDidLayoutSubviews() happens for "geometry chaged
+    - didReciveMemoryWarnning()

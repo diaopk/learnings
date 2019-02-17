@@ -1,0 +1,23 @@
+INTRODUCTION
+
+SSL is short for Secure Sockets Layer) is the stadnard security technology
+for establishing an encrypted link between a web server and a browser. This
+link ensures that all data passed between the web server and a web browser
+remain private and integral. SSL is an industry standard and is used by
+million of websites in the protection of their online transactions with 
+their customers
+
+To be able to create an SSL connection a web server requres an SSL 
+Certificate. When you choose to activate SSL on your web server you will be
+promoteed to complete a number of questions about the identity of your 
+websites and your company. Your web server then creates two crytographic 
+keys a private and a public key.
+
+The Public ket does not need to be secret and is placed into a Certificate 
+Signing Request(CSR) -  a data file also containing your details. You should
+then submit the CSR. During the SSL Certificate application process, the 
+certificate authority will validate your datails and issue an SSL 
+certificate containing your details and allowing you ro use SSL. Your web 
+server wil match your issued SSL certificate to your private key. Your web 
+server then be able to establish an encrypted link bewteen the website and 
+your customer's web browser.

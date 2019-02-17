@@ -1,0 +1,315 @@
+* Some Proporties
+    - lazy: Any data defined after the lazy keyword can get later used for some 
+      uninitialised value in it when some one ask for it
+
+    - assert(condition: Boolean, crashMessage: String) to usually be used in the begining of the function
+      to make sure the condition is true before running the code after this condition
+
+    - Memory Managment(for declearing a variable)
+      Since Swift does not use the gabage collection system to clean up something that are not used in the 
+      heap, it uses Automatic Reference Counting. ARC make classes in the heap keep counting when some
+      variables point to this class. If the count is 0, this class will be removed instantly.
+
+      - strong: default keyword. increase the count for that class when pointing to
+      - weak: set the variable to nil if there is no strong pointer point to the class in the heap
+
+* Data Type
+    - Any data type is having a propority observer
+      - var num = xxx.count {
+        didSet {}
+        }
+
+        // This works when the variable changes, it will run the code 
+        // inside the didSet {}
+
+* Computed Property
+    - Usually in many languages, varibles are just stored properties when they are declared
+    - Sometimes, a varible is derived by the sate of the other varible or properties. then we have computed
+      property.
+    - In swift, a variable can be computed property, meaning that the varible gets chagnged when its relative
+      variables change.
+    - However, the varible never gets stored rather than run the code inside of the get() and set() of this
+      computed property.
+
+    - Syntax
+        var indexOfCard?: Int {
+            get {
+                // code for returning the calculated value, otherwise nil 
+            }
+            set(newValue) {
+                // do something based on this change to the indexOfCard
+                // that can be outside of this property
+            }
+        }
+
+        // Read-only property
+        var parkSize: Int { return park.size() }
+
+* Array
+    - syntax
+        var array1 = [Int]()
+
+    - There are tons of functionality than you can use for an array
+      - Appending a new element to an array, just ary += [element1, element2]
+
+* Countable Range
+    - usually used in for loop
+      for num in 0..<endOfTheNumber {} // not include the endOfTheNumber
+      for num in 0...<endOfTheNumber {} // does include the endOfTheNumber
+
+    - stride(from: Int, through: Int, by: Int) creates a countable range
+
+* tuple 
+    - syntax
+        var height: double = 20.99
+        var wight: double = 10.80
+        var data1 = (height, weight)
+
+        //Get the data
+        print(data.0) // Get the height
+
+        let x: (String, Int, Double) = ("hello", 10, 1.0)
+        let x: (word: String, number: Int, value: Double) = ("hello", 10, 1.0)
+        // then I can rename the element of this tuple
+        let (wrd, num, val) = x
+
+* Dictionary
+    - Dictionary's key implements protocol hashable and equtable because the key has to be unique
+    - syntax, I think the syntax is similar to the Array.
+      var dict = dictionary<Int, String>()
+      var dict1: [Int: String]()
+      var dict1[0] = "Arenas"
+
+* Function
+    - syntax
+      1.
+        func getSum(num1: doubble, num2: double) {
+            print("The Sum: \(num1 + num2)")
+        }
+
+      1.1 Arguments
+        Function arguements can have internal and external names
+        internal name is used for the inside of the function
+        external name is used for showing the argument name when calling
+        the function itself.
+
+        If we do not use actually use the argument, we can use _ for this argument
+        for _ in range(....) {} // _ gets ignored, but the loop runs a number of times
+
+      1.2 Functoin Return type
+        func getString(at: Int) -> String {
+            return dict(at) ?? "?" // This means if there is no dict(at) in there 
+                                    // Return the another guy
+        }
+      
+      2.
+        // have a return value with a returned type
+        func getSum2(num1: Int, num2: Int) -> {
+            return num1 + num2
+        }
+
+      3.
+        // have unknow number of arguements passed
+        func getSum3(nums: Int...) -> Int {
+            var sum: Int = 0
+            for num in nums {
+                sum += num
+            }
+            return sum
+        }
+
+        // A function can have another function inside of it
+        // and can return multiple values
+        func returnMulti(num1: Int, num2: Int) -> (num1: Int, num2: Int) {
+            //Whatever inside of it
+        }
+
+        // Function arguement stuff
+        // A function with a arguement
+        func digitFunc(from: Double) -> double {
+            // Whatever
+        }
+
+        // Also a function with a named arguement
+        func digitFunc2(from from: Double) -> double {
+            // Whayever
+        }
+
+        // another version of if
+        // Underbar arguement is never used in the second and so on args
+        // It can be only used in the first arguement
+        func digitFunc3(_ form: Double) -> Double {
+            // Do something
+        }
+
+* extension
+    - add a methods of whole API for a class to make this class clean and more readable
+    - Two restriction
+        - can't add a method or property that are already there
+        - The property you add has no storage associated with them (computed property only)
+    - extenstion Int {
+
+      }
+
+* closure
+    - A function actually has a type in swift
+    - notice
+      - a closure is a reference type, which means it lives in the heap
+      - capturing: everything used inside of a closure will also live in the
+        heap. because a closure is a reference type
+    - synyax like this:
+      - var str (val: String) -> (val: String) { returnType in
+            println(/(val)" and "/(/val))
+        }
+
+    - Examples
+        var square: (Int) -> (int) = {
+            num in
+            return num * num
+        }
+
+        // Example by stanford
+        // Before
+        func changeSign(operand: Double) -> { return -operand }
+        var operation: (Double) -> Double
+        operation = changeSign
+        print(operation(4.0)) // -4.0
+
+        // After
+        //v1
+        operation = { (operand: Double) -> Double in return -operand }
+        // v2
+        operation = { (operand) in return -operand }
+        // v3
+        operation = { (operand) in -operand }
+        // v4 operation = { -$0 } // $0, $1, $2... represent the first
+                                  // second, thrid... arguement of the func
+
+        // Example v2
+        let primes = [1, 2, 3, 4, 5]
+        let negativePrimes = primes.map({ -$0 })
+        // if the last argument to a method is a closure
+        let invertedPrimes = primes.map() { 1/$0 }
+        // if the last argument to a method is closure and there is only
+        // one argument
+        let primeString = primes.map { String($0) }
+
+        // Example v3
+        // Closures with property initialsation
+        // This especially useful with lazy property initialsation
+        var someProperty: Type = {
+            // construct the value of someProperty here
+            return <the constructed value>
+        }()
+
+* Struct
+    - Like a class, but cannot be inherited
+    - New features: ...
+
+* class
+
+* protocol
+    - Like an interface. A protocols can implement other protocols.
+    - Optional implementation of vars and methonds in the protocol marks @objc
+    - in swift, a class or struct thatn implements a protocol must implement all the vars and method inside
+      of the protocol
+    - Some of the protocol have initial implementation of the methods, which means that any class or struct
+      implements those protocols have no need to implment the methods again. However you can also override 
+      these methods if so those methoeds would be replaced
+
+* extension
+    - used for a data type to provide some manual functions
+    - can be invoked by the variable of, for example, string after a dot
+
+* enum
+    - A data structure storing a list of stuff
+    - enum is value typed, meaning it gets copies when assignment
+    - Example
+        enum Emotion {
+            cases joy(level: Int)
+            case anger(Int)
+            case fear
+            case disgust
+            case sad
+        }
+
+        let nowFeeling = Emtion.anger(level: 10)
+        let yourFeeling: Emotion = .anger(inThisLevel: 10)
+
+        // Update a value
+        nowFeeling = .sad
+
+* switch
+    - basic use
+        // for checking the enum's state 
+        switch yourFeeling {
+            case Emotion.joy: break // if you don't want to do anything in the given
+                                    // case, use break. It is not like other 
+                                    // languages. It does not break out of this case
+                                    // and go to the other cases
+            case .anger: print("blablablabla")
+            default: print("blablabla")
+        } // for checking enum's state, you have to check all cases
+
+        // this is how to get the data from enum using switch
+        // getting the data by using let before the name of value associated with this
+        // case
+        switch yourFeeling {
+            case .joy(let joyLevel): print("you are now /(joyLevel) 0% happy!")
+            case .anger(_): break // the undervar means we have a data but not to use
+            case default: break...
+        }
+
+* Optional
+    - Something that can or cannot have a value
+    - Optional is an enum
+        enum Optional<T> {
+            case none
+            case some(<T>)
+        }
+
+    - Optional is a one of the data type, associated with another data type
+      like Integer
+    - Optional value is the special with initialising with 'nil'
+    - syntax
+        var house: Boonlean?
+        house = true
+
+        /* However If a optional defintly has a value and that is not nil
+         * then we can use !
+         */
+        let one = Integer(1)!
+
+    - Examples to give a clear look how an Optional is an enum
+        // wrapping the optional
+        var hello: String?              | var hello: Optional<String> = .none
+        var hello: String? = "hello"    | var hello: Optional<String> = .some("hello")
+        var hello: String? = nil        | var hello: Optional<String> = .none
+
+        // unwrapping the optional
+        let hello: String? = "hello"    | switch hello {
+        print(hello!)                   |   case .none: // raise an exception(crash)
+                                        |   case .some(let data): print(data)
+                                        | }
+
+    - Optional Chaining
+        let x: String? = otherOptional
+        let y = x?.foo()?.bar?.z // means assign z data to y if everything before 
+                                 // z is not nil. If any one of optional is nil
+                                 // then return nil to y
+
+* Control Flow
+    - for
+        for contorl flow can have different for different data struture:
+        for example:
+            for i in 1...10
+                print(i)
+
+            for (index: name) in dict1
+                print("Index: \(index) | name: \(name))
+
+* Access Control
+    - internal: this is default, it means "usable by any object in my app or framework
+    - private: this means only callable from within this object
+    - private(set): this means this property is readable outside this object, but not
+      settable

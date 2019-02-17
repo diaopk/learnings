@@ -1,0 +1,858 @@
+# This note describes about some javascript's basic uses 
+
+- two types of data
+  - promitive data type
+    - String 
+    - Number 
+    - Boolean
+    - Null
+    - Undefined
+    - Symbols
+
+  - Reference type 
+    - Arrays
+    - Object Literals
+      - new Number, String, Boolean... they are objects with premitive value
+      - for example
+        let num = 1;
+        let num2 = new Number(1);
+        console.log(num === num2) // will be false
+
+    - Functions
+    - Dates
+    - Anything else
+
+- Javascript is a Dynamically Typed language
+  - Types are associated with values not variables
+  - the same variable can hold multiple types
+
+- block scope and global scope
+  - let const for global scope
+  - var for block scope
+
+- data type
+  - String
+    - let firstName = "Junli";
+      let lastName = "Liang";
+      let fullName = firstName + ' ' + lastName;
+      fullName = firstName.concat(' ', lastName); // add a space to the start of ...
+      let greeting = 'Hey guys my name\'s' + firstName;
+      let subName = fullName.split(' '); // split the string into an array based on
+                                         // the separator ' '
+      console.log(subName.includes('Junli')) // check if the array includes JUNLI
+    
+    - example of inserting html string with js
+      // basically what the means is you can run any js code within the $()
+      html = '
+        <ul>
+          <li>Name: $(name)</li>
+          <li>City: $(city)</li>
+          <li>Job: $(job)</li>
+          <li>$(2+2)</li>
+          <li>$(hello())</li>
+          <li>$(age > 30 ? 'Over 30' : 'Under 30')</li>
+        </ul>
+        ';
+
+      document.body.insertHTML = html;
+
+- Control flow
+  - switch
+    switch(colour) {
+      case 'red':
+        console.log('the colour is red');
+        break;
+      default:
+        console.log('the colour is not red');
+        break;
+    }
+
+  - for loop
+    // for each loop
+    const cars = ['Ford', 'Chevy', 'Honda', 'Totota'];
+    // use of function expression
+    cars.forEach(function(car, index, array) {
+      console.log('${index} : ${car}');
+      console.log(array);
+    });
+
+    // for in loop
+    for (let x in user) {
+      console.log(x);
+    }
+
+* Browser object model
+    the topmost object is the window object, which represents current browser 
+    window or tab.
+    Its child object represents other browser features.
+
+    window--current browser window or tab
+               |-document current web page
+               |-history--pages in browser history
+               |-location--url of current page
+               |-navigator-information about browser
+               |-screen--device's display information
+
+* Function
+    - example:
+    function printHello() {
+        document.write('hello world');
+    }
+
+    function calculate(width, height) {
+        return (width * height);
+    }
+
+    var value = calculate(3, 4);
+
+    // Anonymous function or called function expressions
+    var area = function(3, 4) {
+        return 3 * 4;
+    }
+    console.log(area());
+
+    Or
+    
+    var area = function(width = 3, height = 4) {
+        return width * heigth;
+    }
+
+    var area2 = area(3, 4);
+    
+    // Nested functions are possible
+    var area = (function(width, heigth) {
+        return width * height;
+    })
+
+    var area2 = area()
+        
+      - Global varibles use more memory.
+        The browser has to remember them for as long as the web 
+        page using them is loaded.
+        Local varibles are only remembered during the period of 
+        time that a function is being executed.
+
+    // assign default value for function arguements
+    function greet(firstName = 'John', lastName = 'Doe') {
+      return 'Hello' + firstName + ' ' + lastName;
+    }
+
+    // immidiately invokable function expression - IIFEs
+    (function(name) {
+      console.log('Hello ' + name);
+    })('Brad');
+
+    const itemCtrl = (function() {
+      // private variables
+      let _data = [];
+
+      // private methods that cannot be invoked outside this scope
+      function add(item) {
+        data.push(item);
+        console.log('Item added...');
+      }
+
+      function get(id) {
+        return data.find(item => {
+          return item.id === id;
+        });
+      }
+
+      return {
+        add: add,
+        get: get
+      }
+    })(<empty--parameters);
+
+    itemCtrl.add({id: 1, name: 'Junli'});
+    console.log(itemCtrl.get(1));
+
+    // PROPERTY METHODS
+    const todo = {
+      add: function() {
+        console.log('Add metho called');
+      },
+      edit: function() {
+        console.log('Edit method called');
+       }
+    }
+
+    // its poosible to add methods after the construction finishes
+    todo.delete = function() {
+      console.log('Delete method called');
+    }
+
+- Arrow Functinon(ES6)
+  - Examples 
+    // Old way
+    const sayHello = function() {
+      console.log('Hello');
+    };
+
+    // intermeidiate way
+    const sayHello = () => {
+      console.log('Hello');
+    };
+
+    // Shortest way
+    const sayHello = () => conole.log('Hello');
+
+    // Transferred version of Fetch API
+    function getJSON() {
+      fetch(url)
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(err => conole.log(err));
+    }
+
+    const getName = (firstName, lastName) => return firstName+lastName;
+
+- Async and Await
+  - 
+    // The function returns a promise object
+    // which means we can use then() and catch()
+    async function myFunc() {
+      return 'Hello';
+    }
+
+    // better example
+    async function getUsers() {
+      // await response of the fetch call
+      const reponse = await fetch(url);
+
+      // Only processed once its resolved 
+      const data = await response.json();
+
+      // only proceed once second promise is resloved
+      return data
+    }
+
+    // returned value from getUsers() is then passed to then() to be output
+    getUsers().then(users => console.log(users));
+
+    // Using Async and Await needs us to call then() and catch() after te getUsers()
+    // Which one to use is a perference thing (fetch or AsyncAwait)
+
+* Object (ES5 classes)
+  - Every objects are inherited from Object. Objects are actually prototype. It has
+    some built-in default functions
+
+    all methods can be written with prototypes. Person.prototype.newFunctoin = func()
+    all methods are from the prototypes
+    prototype methods are not owned by the a particular objects. They owned by the 
+    parent or the prototyped objects.
+
+    - examples:
+        var hotel = {
+            name: 'hello world hotel',
+            rooms: 30,
+            booked: 20,
+            roomTypes: ['twin', 'double', single'],
+
+            checkAvailability: function() {
+                                return this.rooms - this.booked;
+            }
+        };
+
+        Or:
+        var hotel = new Object(); //Or var hotel = {}
+        hotel.name = 'hello world hotel';
+        hotel.rooms = 40;
+        
+        hotel.checkAvailability = function() {
+            return this.rooms - this.booked;
+        };
+
+        If wanted creating serval objects:
+            funcrtion Hotel(name, rooms, booked) {
+                                this.name = name;
+                                this.rooms = rooms;
+                                this.booked = booked;
+
+                                this.checkAvailability = function() {
+                                        return this.rooms - this.booked;
+                                };
+            }
+
+            then create objects:
+
+            var hotel1 = new Hotel('hello world', 30, 20);
+
+    - Accessing an object by using dot notation(.)
+    - Updating an object by using htel.name = 'XXX';
+    - Deleting a property by using delete keyword: delete hotel.name;
+
+  - Inheritance
+    - there is a method called Parent.call(this, otherParams, ..) just like super()
+      in java
+    - There are two lines of code to make inheritance happen.
+      // Inherit the Parent protoype methods
+      Child.prototype = Object.create(Parent.prototype);
+
+      // Make Child.prototype return Child()
+      Child.prototype.constructor = Child;
+
+    - With two lines of code above done, you are able to overwrite the parent's
+      methods
+
+  - Prototypes
+    - It is able to make a object having prototyptical methods. Don't have to 
+      inherit methods from a certain object. This can be done with 
+      Object.create(prototype);
+
+    - For exampple:
+      const greetingPrototype = {
+        return `Hello there ${name}`'
+      }
+
+      // an object created by Object.create and with prototypical methods
+      const junli = Object.create(greetingPrototype, {
+        this.name = 'junli';
+      });
+
+      // Or
+      const junli = Object.create(greeting);
+      junli.name = 'junli';
+
+- ES6 Classes
+  - a example to begin with:
+    class Person {
+      constructor(firstName, lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+      }
+
+      greeting() {
+        return `Hey guys I am ${firstName} ${lastName}`;
+      }
+
+      // able to use static methods as well
+      static age() {
+        reutnr 20;
+      }
+    }
+
+    // Sub classes
+    class Player extends Person {
+      construcutor(firstName, lastName, membership) {
+        super(firstName, lastName);
+
+        this.membership = membership;
+      }
+
+      static getMembershipCost() {
+        200;
+      }
+    }
+
+    const junli = new Player('Junli', 'Liang', 'Standard');
+
+    const junli = new Person('Junli', 'Liang');
+    console.log(junli.greeting());
+
+    // Static methods are from classes themselves
+    console.log(Player.getMembershipCost());
+
+- Two features
+  - Iterator
+    function sayNames() {
+      let index = 0;
+      return {
+        next: function() {
+          return nextIndex < names.length ? 
+          { value: names[nextIndex++], done: false } : 
+          { done: true }
+
+  - Generator
+    functions* sayNames() {
+      let index = 0;
+      while (true) {
+        yield index++;
+      }
+    }
+
+- Map and Set
+  - Maps store key/value pair value
+  - Sets store unique values of any type, duplicated values are not allowed.
+    - unique values means premitive values, like reference type object are not allowed
+      to be equal
+
+
+- Patterns
+  - Revealing: see functions parts 
+  - Singleton
+  - Factory
+  - obsever pattern
+    - create a button in the index.html
+    - in the app.js
+      // using prototype able to add/remove events listeners for the button
+      function EventObserver() {
+        this.observers = [];
+      }
+
+      EventObserver.prototype = {
+        subscribe: function(fn) {
+          this.observers.push(fn);
+        }
+        
+        unsubscribe: function(fn) {
+          this.observers = this.observers.filter(function(item) {
+            if (item !== fn) {
+              return item;
+            }
+          });
+        }
+        
+        fire: function() {
+          this.observers.forEach(function(item) {
+            item.call();
+          }
+        }
+      }
+
+      // click handler
+      const getCurSeoncds = function() {
+        console.log('Current Seconds: ${new Date().getSeconds()}');
+      }
+
+      const click = new EventObserver();
+
+      // document.querySelector('button').addEventListener('click', function() {
+        click.subscribe(getCurSeconds());
+      });
+
+- Notes
+  - === used to compare two types of data and !== otherwise
+    if (typeof id !== undefined) {
+      console.log('The ID is ${id}');
+    } else {
+      console.log('NO ID');
+    }
+
+  - Async in js
+    - Ways to work with Async code
+      - Callbacks
+      - Promises
+      - Async / Await
+
+    - Promise Object
+      - new standard for handling request and response
+      - For example:
+        // Function to create post
+        // resolve callback for handling request successfully
+        // reject callbacjk handles otherwise
+        function createPost(post) {
+          return new Promise(function(resolve, reject) {
+
+            // for example append a new post
+            posts.push(post);
+
+            // calls the resolve function
+            if (!error) {
+              resolve();
+            } else {
+              reject();
+            }
+          }
+        }
+
+        // call the function to add a post
+        createPost(post)
+        .then(getPosts)       // if everything goes fine
+        .catch(displayError)  // if something went wrong
+
+  - Destructuring assignments
+    let a, b;
+    [a, b] = [100, 200];
+    [a, b, c, ...rest] = [100, 200, 300, 400, 500]
+    console.log(res) // list of 400, 500.
+
+* Window Object
+    - Properties
+      - closed : Returens a Boolean value indicating whether a window
+                   has been closed or not
+      - defaultStatues : sets or returns the defualt text in the 
+        statusbar of a window
+      - document : returns the Doucment object for the window
+      - frameElement : Returns the <iframe> element in which the 
+        current window is inserted
+      - frames : Returns all <iframe> elements in the current window
+      - history : Returns the History object for the window
+        - can be used to get back the previous sites
+        - window.history.length: check how many history sites
+
+      - innerHeight : Returns the inner height of a window's content
+        area
+      - innerWidth : Returns the inner width of a window's content area
+        - those two values are for user use. not count the developer mode windows
+        
+      - length : Returns the number of <iframe> elements in the current
+        window
+      - localStorage : Returns a reference to the local storage object
+        used to store data. Stores data with no expiration date
+      - location : Returns the Location Object for the window
+        - useful methods like href, reload()
+
+      - name : Sets or returns the name of a window
+      - navigator : Returns the Navigator object for the window
+      - opener : Returns a reference to the window that created the
+        window
+      - outerHeight : Returns the outer Height of a window, including
+        toolbars/scrolllbars
+      - pageXOffset : Returns the pixels the current document has been
+        scrolled(horizontally) from the upper left corner of the window
+      - pageYOffset : Returns the pixels the current document has been
+        scrolled(vertically) from the upper left corner of the window
+      - parent : Returns the parent window of the current window
+      - screen : Returns Screen object for the window
+      - screenLeft : Returns the horizontal coordinate of the window
+        relative to the screen
+      - screenTop : Returns the vertical coordinate of the window
+        relative to the screen
+      - screenX : Returns the horizontal coordinate of the window
+        relative to the screen
+      - screenY : Returns the vertical corrdinate of the window 
+        relative to the screen
+      - sessionStorage : Returns a reference to the local storage
+        object used to store data. Stores data for one session
+        (lost when the browser tab is closed)
+      - scrollX : An alias of pageXOffset
+      - scrollY : An alias of pageYOffset
+      - self : Returns the current window
+      - status : Sets or returns the text in the statusbar of a window
+      - top : Returns the topmost browser window
+
+    - Methods
+      - alert() : Displays an alert box with a message and an OK button
+      - atob() : Decodes a base-64 encoded string
+      - blur() : Removes focus from the current window
+      - btoa() : Encodes a string in base-64
+      - clearInterval() : Clears a timer set with setInterval()
+      - clearTimeout() : Clears a timer set with setTimeout()
+      - close() : Closes the current window
+      - confirm() : Display adialog box with message and an OK and a 
+        Cancel button
+        if (confirm('Are you sure')) {
+          console.log('yes');
+        } else {
+          console.log('No');
+        }
+
+      - focus() : Sets focus to the current window
+      - getComputerStyle() : Gets the current computed CSS styles 
+        applied to an elements
+      - getSelection() : Returns a Selection object representing the 
+        range of text selected by the user
+      - matchMedia() : Returns a MediaQueryList object representing the
+        specified CSS media query string
+      - moveBy() : Moves a window relative to its current position
+      - moveTo() : Moves a window to the specified position
+      - open() : Opens a new browser window
+      - print() : Prints the content of the current window
+      - prompt() : Displays a dialog box that prompts the visitor for
+        input
+      - resizeBy() : Resizes the window by the specified pixls
+      - resizeTo() : Resizes the window to the specified width and 
+        height
+      - scroll() : Deprecated. This method has been relaced by the 
+        scrollTo() method.
+      - scrollTo() : Scrolls the document to the specified coordinates
+      - setInterval() : Calls a function or evaluates an expression at
+        specified intervals(in milliseconds)
+      - setTimeout() : Call a function or evaluates an expression after
+        a spcified number of milliseconds
+      - stop() : Stops the window from loading
+
+* document object
+    - Property
+      - Within js, document.all can access all tag elements like an array
+
+        acccess sub tag by document.all[index]
+        create an array for the document: let arr = Array.from(document.all)
+        then we can use all array built-in functions
+
+      - activeElement : Return the currently focused element in the 
+        document
+      - anchors : Returns a collection of all <a> elements in the 
+        document that have a name attribute
+      - applets : Returns a collection of all <applet> elements in the
+        document
+      - baseURL : Return the absolute base URL of a document
+      - body : Sets or returns the document's body element
+      - cookie : Returns all name/value pairs of cookies in the 
+        document
+      - characterSet : Returns the character encoding for the document
+      - doctype : Return sthe Document Type Declaration associated with
+        the document
+      - documentElement : Returns the Document Element of the document
+      - domain : Returns the domain name of the server that loaded the
+        document
+      - inputEncoding : Returns the encoding, character set, used for
+        the document
+      - lastModified : Returns the date and time the document was last
+        modified
+      - 
+    - method
+      - Two types of selector
+        - single selector
+          - 1st one
+          - usually use once and return once
+          - document.getElementById('id') or document.getElementByClass('')
+
+          - 2nd one
+          - newer way to grab html document
+          - this is why jquery is not recommanded as most of modern javascript can
+            do what it does
+          - example: document.querySelector('#id'); or 
+            ducoment.querySelector('.class');
+            document.querySelector('h5') // get the first h5 tag element.
+            document.querySelector('ul li').style.color = 'blue'; // nested tag
+            document.querySelector('li:last-child').style.color = 'red'; // last tag
+            document.querySelector('li:nth-child(3).)style.color = 'yello'; // 3rd
+
+            // 2nd example
+            let val =  list.parentElement; // gets the parent element
+            val = list.nextElementSibling; //next element
+            val = list.previousElementSibling; // previous one but maybe null
+
+            // 3rd example -- replace element
+            const newHeading = document.createElement('h2');
+            newHeading.id = 'task-title';
+            newHeadling.appendChild(document.createTextNode('Task List'));
+
+            const oldHeading = document.getElementById('task-title');
+            const cardAction = document.querySelector('.card-action');
+
+            cardAction.replaceChild(newHeading, oldHeading); // replace from parent
+        
+        - multi selector
+          - example:
+            // 1st example
+            let items = document.getElementByClassName('collection');
+
+            // 2nd example
+            const listItems. document.querySelector('ul').getElementByClassName('coll
+            ection-item');
+
+            // 3rd example
+            let = lis = document.getElementByTagName('li')
+            lis = Array.from(lis);
+            lis.reverse(); // now is able to use array function
+            list.forEach(function(li, index) {
+              console.log(li.className);
+              li.textContent = '${index}: Hello World';
+            });
+
+            // 4th example
+            // items is a NodeList working like an array
+            let items = document.querySelectorAll('ul.collection li.collection-item')
+            items.forEach(function(item, index) {
+              console.log('${index} ${item}');
+            });
+
+            // 5th example
+            // select all odd index of element li and the same, its formed a NodeList
+            const liOdd = document.querySelectorAll('li:nth-child(odd)')
+
+            // * 6th example
+            const list = document.querySelector('ul.collection');
+            /* for most part it stands for
+              1 - element
+              2 - attribute(dseprecated)
+              3 - text node
+              8 - comment
+              9 - document itself
+              10 - Doctype
+            */
+            let val = list.childNodes;
+            console.log(val.childNodes[1].nodeType); // get which type it is 
+
+            // use children most of times
+            val = list.children; // it gets a list of elements, which is type 1
+            val = list.firstChild; // first child with all properties
+            val = list.firstElementChild; //  gets element only
+            val = list.childElementCount; // count of childs
+            
+
+      - addEventListener() : Attaches an event handler to the document
+        - examples:
+          document.querySelector('.clear-tasks').
+            addEventListener('click', function(e) {
+            let val;
+            val = e; // event reference
+
+            // event target element
+            val = e.target;
+            val = e.target.id;
+            val = e.target.className;
+            val = e.target.classList;
+
+            // event type
+            val = e.type // in this case, its 'click'
+
+            // coordinates event relative to the window
+            val = e.clientY;
+            val = e.clientX;
+
+            // coordinates event relative to the element 
+            val = e.offsetY;
+            val = e.offsetX;
+
+            console.log(val);
+          });
+
+        - Event types
+          - For more details, https://www.w3schools.com/jsref/dom_obj_event.asp
+          - click
+          - dblclick
+          - mousedown
+          - mouseup
+          - mouseenter
+          - mouseleave
+          - mouseover, works for any elements inside this element
+          - mouseout, same as above
+          - mousemove, tracking the mouse wherever the mouse moves
+        
+        - Event Dubble and Delegation
+          - Event Bubble: When a evnet triggered, the element and its all parents 
+            elements will be called if they have same event.
+
+          - Event Delegation: When a event triggered, all its child elements will be
+            called if they have same event.
+
+          - Examples:
+            document.body.addEventListener('click', deleteItem);
+
+            // when the body element is clicked, which is usually the case,
+            // all its child element will be triggered if they have click event
+            // but we don't want all of them to be triggered, we can use filter if 
+            function deleteItem(e) {
+              if (e.target.parentElement.className === 'whole class strings') {
+                console.log('delete item');
+              }
+
+              if (e.target.parentElement.classList.contains('any-class-name') {
+                console.log.('delete item);
+                e.target.parentElement.parentElement.remove(); // remove the element
+              }
+            }
+
+      - adoptNode() : Adopts a node from another document
+      - close() : Closes the output stram previously opened with 
+        document.open()
+      - createAttribute() : Creates an attribute node
+      - createComment() : Creates a comment node with the specified 
+        text
+      - createDocumentFragment() : Creates an empty DocumentFragment
+        node
+      - createElement() : Creates an Element node
+        - used to create a element then insert into the html document
+        - for example:
+          const li = document.createElement('li');
+          li.className = 'collection-item'; // add class
+          li.id = 'new-item'; // add id
+          li.setAttribute('title', 'New Item'); // add attribute
+          li.appendChild('document.createTextNode('Hello World')); //add text content
+
+          // create a a element
+          const link = document.createElement('a');
+          link.class = 'delete-item secondary-content';
+          link.innerHtml = '<i class="fa fa-revome"></i>';
+          li.appendChild(link);
+
+          // append to the exsiting document object
+          document.querySelector('ul.collection').appendChild(li);
+
+      - getElementById() : Returns a NodeList containing all elements
+        with the specified class name
+      - getElementByClassName() : Returns a NodeList containing all 
+        elements with a specified class
+      - getElementByName() : Retuns a NodeList containing all elements
+        with a specified name
+      - getElementByTagName() : Returns a NodeList containing all
+        elements with the specified tag anem
+      - hasFocus() : Returns a Boolean value indicating whether the 
+        document has focus
+      - ImportNode() : Imports a node from another document
+      - normallize() : Removes empty Text nodes and joins adjacent node
+      - open() : Opens an HTML output stream to collect output from
+        document.write()
+      - querySelector() : Returns the first element that matches a 
+        specified CSS selectors in the document
+      - querySelectorAll() : Returns a static NodeList containing all
+        elements that matches a specified CSS selector in the document
+      - removeEventListener() : 
+      - renameNode() : Renames the specified node
+      - write() : Writes HTML expressions or javaScript code to a 
+        document
+      - writeIn() : Same as write(), but adds a newline character 
+        after each statement
+
+* JSON
+  - Pretty much taking away XML
+    - stands for JavaScript Object Notation
+         
+         Since the JSON format is text only, it can easily be sent to and
+         from a server, and used as data format by any programming
+         language.
+         JavaScript has built-in functions to convert a string, written in
+         JSON format, into native JavaScript object:
+        JSON.parse()
+    So, if you receive data from a server, in JSON format, you can use
+    it like any other JavaScript object.
+
+    - JSON can be one of the following values:
+        - String
+        - Number
+        - Array
+        - JSON object
+        - Boolean
+        - null
+    
+    - Creating an object
+        {"name": "John", "age": 30, "salary": 2000}
+
+        - Also objects can be nested with other objects
+
+    - JSON cannot be the one of the following:
+        - date
+        - function
+        - undefined
+
+    - Accessing the data can be through the way like in javascript
+        Person.name;
+        or:
+        Person["name"];
+
+    - Updating and deleting properties are the same to javascript
+
+    - Obtaining data in the format of JSON by using
+        var obj = JSON.parse('{"object_content_in_string"}')
+
+        - JSON.parse(text[, reviver])
+            This method parses a JSON string, constructing the
+            Javasctipt value or object decribed by the string
+            An optinal reviver function can be provided to
+            perform a transformation on the resulting object
+            before it is returned.
+
+            If the reviver function returns undefined(or 
+            returns no value, e.g. if execution falls off the
+            end of the function), the property is deleted from
+            the object. Otherwise, the property is redefined 
+            to be the return value.
+
+            An example of code:
+            var text = '{"name": "John", "birth": "1993-12-14"}';
+            var obj = JSON.parse(text, function (key, value) {
+                                        if (ket == "birth") {
+                                                return new Date(value);
+                                                } else {
+                                                        return value;
+                                                }
+                                        });
+            document.getElementById("xxx").innerHTML = obj.name
+
+        - JSON.stringify()
+            This function can convert javascript object into 
+            string then send it to the server

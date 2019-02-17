@@ -1,0 +1,8 @@
+#All scriptings need to be writen in ~/.vimrc
+set smartindent : to set auto indent
+
+<c-n> : ctrl+n
+<c-p> : ctrl+p
+
+Youcompleteme setup:
+    may need to reinstall the whole thing and install python.devel before running the install.sh under the Youocmpleteme directory

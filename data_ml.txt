@@ -1,0 +1,60 @@
+- Terms
+  - Tranining instance
+  - training dataset
+  - Inductive bias
+    - restriction bias: constrains the set of models that the algorithm will consider
+      during the learning process
+    - preference bias: guides the learning algorithm to perfer certian models over
+      others.
+  
+  - underfitting and overfitting
+  - Analytics base table (ABT)
+
+- What is ML
+  - In summary, machine learning work by searching through a set of potential models
+    to find the prediction model that best generalises beyond the dataset. Machine
+    learning alforithms use two sources of informaiton to guide this search, the 
+    training dataset and the inductive bias assumed by the algorithm
+
+- CRISP-DM
+  - Business understanding
+  - Data understanding
+  - Data preparation
+    - Data quality report: ways to display data through either central tendency or
+      data visualisation.
+      - Test by e.g. X^2 and ANOVA
+    - Outliers handling: clamp transformation, setting threshold
+    - Normalisation: used to change the continuous feature to fall within a specifed
+      range while maintaining the relative differences between the values for the 
+      feature.
+      - Binning: define a series of ranges (bins) for the continuous features that
+        correspond to the levels fo the new categorical feature we are creaing.
+        - Equal-width binning and equal-frequency binning
+          - equal-frequency: e.g. 1000 instances and each bin of 100 instances.
+        - With deinding different number of bins, we can see the trend or behavouir
+
+    - Sampling
+      - Top sampling
+      - Random sampling
+      - Stratified sampling
+        - We want to maintain the stuff like distribution of the target features. 
+          This sampling is to ensure the relative frequencies of the levels of a 
+          specific stratification feature are maintained in the sampled dataset.
+        - How it works is by dividing dataset into a number of stratification or 
+          groups that have a particular target feature then randomly select data from
+          them to form a sample dataset.
+      
+      - under-sampling and over-sampling
+        - used to get a dataset sample with different relative frequencies of the 
+          levels of a particular feature to the distribution in the original dataset.
+      - To Test if the sample is good to go
+
+  - Modeling
+  - Evaluation
+  - Deployment
+
+- Four main families of machine learning algorithms
+  - Information-based learning 
+  - Similarity based learning
+  - Probability based learning
+  - Error based learning 

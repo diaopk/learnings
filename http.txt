@@ -1,0 +1,40 @@
+* Methods
+    - GET : The GET method requests a representation of the specified
+      resource. Requestes using GET should only retrieve data and
+      should have no effect.
+
+    - HEAD
+      The HEAD method asks for a response identical to that of a GET
+      request, but without the response body. This is useful for 
+      retrieving meta-information written in response headers, without
+      having to transport the entire content
+
+    - POST
+      The POST method request that the server accept the entity 
+      enclosed in the request as a new subordinate of the web resource;
+
+    - PUT
+      The PUT method requests that the enclosed entity be stored under 
+      the supplied URI. If the URI refers to an already existing 
+      resource, then the server can create the resource with that URI
+
+    - DELETE
+      The DELETE method deletes the specified resourece
+    
+    - TRACE
+         The TRACE method echoes the received request to that a client can
+         see what changes or additions have been made by intermediate server
+
+    - OPTIONS
+      The OPTIONS method returns the HTTP methods that the server 
+      support for the specified URL. This can be used to check the
+      functionality of a web server by requesting '*' instead of a
+      specific resource
+
+    - CONNECT
+      The CONNECT method converts the request connection to a 
+      transparent TCP/IP tunnel, usually to facilitate SSL-encrypted 
+      communication(HTTPS) through an unencrypted HHTP proxy.
+
+    - PATCH
+      The PATCH method applies partial modifications to a resource

@@ -1,0 +1,40 @@
+This note covers something about the python module urllib
+
+* This note bases on the website:https://docs.python.org/3.1/howto/urllib2.html#fetching-urls
+* Before getting in that, some concepts should be considered
+      HTTP is based on request and responses - the client makes requests
+      and servers send responses. urllib.request mirrors this with a 
+      Request object which represents the HTTP request you are making.
+
+* import urllib.request
+    
+    The easiest way to open a site is
+    url = 'www.example.com'
+    page = urllib.request.urlopen(url)
+    
+    # Now we can fetch the content on the website
+
+    content = page.read()
+    content_one = str(page.readlines()) # optional
+
+* urlopen method can have arguments
+    The argument is Request, which takes 
+    url, data, headers = {}, origin_req_host=None, unverifiable=False, method
+    =None
+
+    some of them can be ignored, data can be arbitrary data. In the common
+    case of HTML forms, the data need to be encoded in a standard way, and
+    then passed to the Request object as the data argument. To do that, we
+    need urllib.parse's method urlencode to encode data.
+
+    headers bascially is the browser stuff to identify the browser itself
+    it can include so many like 'Content-length', 'Content-type, and so on.
+    This link is available for further reading:http://www.cs.tut.fi/~jkorpela/http.html
+    
+    urllib.response.geturl(): return the real URL of the page fethced to
+    check if the page have followed a redirect
+
+    urllib.response.info(): return a dictionary-like object that describees
+    the page fetched, particularly the headers sent by the server. It is 
+    currently an http.client.HTTPMessage instance
+

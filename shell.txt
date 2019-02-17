@@ -1,0 +1,150 @@
+Talk about the shell below
+
+
+1.
+
+1.1 Commands listed below
+
+* sh : Debug checking correctness
+  -n : check bugs without running a program
+  -v : print the content of the script before running the program
+  -x : print the content of the script that will be used to program before running the whole program
+  
+* echo
+  -n : print something on the same line
+* export : make local variable environment variable
+
+* read : read a input sent by user for a specified variable
+  -p : informing of user to do what, should be string enclosed by ""
+  -t : set the time in seconds, after that the program runs automatically
+
+* declare : declare a variable type
+  -a : set the type to array
+  -i : set the type to integer
+  -x : make the variable a environmental variable
+  -r : set the type to readonly, which means cannot be written or reset
+  -p : print means that list the type of a variable
+  +x : means to cancel the operation of -x
+
+* unset : unset the variable
+
+* array : make a array for variable
+
+* test
+  -e : check file existence
+  -f : check file existence and is type of file
+  -d : check file existence and is type of directory
+  
+  -r : check file has the permission of read or not
+  -w : check file has the permission of write or not
+  -x : check file has the permission of execute or not
+  -u : check file has SUID or not
+  -g : check file has SGID or not
+  -s : check file is empty file or not
+
+  -z string : check file is empty string if so return true
+  -n string : check string is empty if so return false
+
+We can use brackets[] to identify file value as well
+  [ -z "$variable" ] ; echo $something
+  [ "$var" == "Y" -o "$var" == "N" ] && echo "something"
+  [ "$var" == "Y" -a "$var" == "y" ] # means the variable var 
+
+* shift : used to shift the arguments from the head
+  shift # : shift # numbers of arguments
+
+* IF statement
+  if [condition]; then
+  fi
+
+  if [conditions]; then
+  else
+  fi
+
+  if [conditions]; then
+  elif [conditions]; then
+  else
+  fi
+
+* Statement for one variable
+  case $variable in 
+    "value_one")
+      expression
+      ;;
+    "value_two")
+      expression
+      ;;
+    *)
+      expression
+      ;;
+  esac
+
+* Function
+  - to create a function we use function keyword
+
+* loop
+  - while [condition]
+    do
+      [expression]
+    done
+
+  - until [condition]
+    do
+      [expression]
+    done
+
+  - for $variables in value_one value_two value_three
+    do
+      [expression]
+    done
+
+  - for ( ( i=1; i<=$var_number; i=i+1 ) )
+    do
+      expression
+    done
+
+2. Description
+
+2.1
+	* Every Variable of OS displayed in upperCase.
+
+	* PATH store some variables path, each time a new app installs, $PATH 
+      will update.
+
+	* We can store a location as a variable and every time we want to cd 
+      this location just 
+      cd this variable.
+
+    * A variable following a $ sign and : represents addition function
+      for example:
+        PATH="xxx/xxx:xxx/xxx:$PATH"
+        this means there are two path added to the head of the variable 
+        PATH
+    
+    * variableName=$(some_command)
+      () used to get the information to create a variable
+
+    * Value replacement
+      deletion:
+        ${variable#/*somethingtodelete}
+              variable : the variable's name
+              # : means delete from left to right and delete the shortest 
+                  one
+              ## : delete the longest one
+              % : delete the shortest one from right to left
+              %% : delete the longest one from right to left
+
+      Replacement:
+        new_variable=${old_variable-content}
+              means : new and old can be the same variable
+        If old one has on value then the new one use content as the new 
+        value
+        This operation can be used to check the empty variable
+
+        new_variable=${old_variable:content}
+              means : the content can replace the value no matter the value
+                      from old_variable is set or not.
+        
+        new_variable=${old_variable+content}
+              means : the old_variable value will be replaced with the 
+                      content if it has been setup

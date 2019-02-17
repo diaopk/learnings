@@ -1,0 +1,125 @@
+# Html notes goes here 
+
+* Document Object Model
+    when a page is loaded, a DOM will be conscturcted as a tree of the
+    current page
+    this model has so many elements and stands for dynamically change,
+    update or some similar behaviours to pages.
+
+List of Tags:
+	Text:
+
+	<p> : Palagrage
+	<strong> : Bold
+	<br> break
+	<hr/>	: Horizonal line
+	<abbr>	: Abbreviation when hovering
+	<cite>	: citation
+	<address>	: email or web address
+	<ins>	: Underline
+	<del>	: A line in the middle of words
+	
+	LIst:
+	<ol>	: Ordered list
+	<li>	: List elements with automatically number preceed the the 
+          font
+	
+	<ul> and <li> similar with the above
+	they can be mixed into nested list
+
+	LInks
+	<a>	: address
+	mailto	: <a href="mailto:xxx.com">Email</a>
+	target	: open a new window like using after href
+	
+	Image
+	<img> src, alt(text desription), title, hegith, width, 
+        align(left,right, top, middle and bottom)
+	<figure> : to ocnclude all the images sources
+	<gigcaption> : description for an image
+	
+	<table>	: a table
+	<tr>	: row
+	<td>	: data
+	<th>	: like <td>
+	<thead>, <tbody>, <tfoot>
+
+	Form:
+	<form>
+    	action	: the site will be sent to 
+	        method	: get or post
+	
+	<input>
+	        type : text, passowrd, radio, checkbox, file, submit, 
+                       hidden, date
+	        name : input name
+	        size : length
+	        maxlength : limit the number of chars to be typed
+	        required : ="required"
+	        placeholder
+	        value : radio, checkbox
+	        checked	: default value
+
+	<textarea>
+
+	<select>
+	        name
+	        size	: how many piece of items can be selected
+	        multiple : ="multiple" means that users can select more 
+        than one
+
+	<option>
+	        value
+	        selected : ="selected"
+		type of submit
+		value	: used to display the name of the botton
+	
+	<label>
+	        for	: stats which form control the label belongs to
+
+	<fieldset>, <legend>, 
+
+* HTML5 elements
+    - header, section, footer, aside, nav, main, article, figure
+    - an example to use figure element
+        <figure>
+            <img src="....jpg" alt="XXX" width="400" height="300">
+            <figcaption>XXXX</figcaption>
+        </figure>
+
+* Other:
+  <meta> element is used to specify which
+    - define the character set used:
+      <meta charset="UTF-8">
+    - define a description of the web page
+      <meta name="description" content="My web page">
+    - define the author of a page
+      <meta name="author" content="Junli Liang">
+    - refresh document every 30 seconds
+      <meta http-equiv="refresh" content="30">
+    - control the page's dimensions and scalling
+      <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+      the width=device-width parts sets the width of the page to follow
+      the screen-width of the device
+      the inital-scale=1.0 parts sets the initial zoom level when the 
+      page is first loaded by the browser.
+
+* A new element or user-customered element can be defined or redined by 
+  developers by using css code
+
+* XHTML
+    - Document structure
+        - XHTML DOCUTYPE is mandatory
+        - the xmlins attribute in <html> is mandatory
+        - html, head, title and body elements are mandaotry
+
+    - XHTML elements
+        - elements must be properly nested
+        - elements must always be closed
+        - elements must be in lowercase
+        - document must have one root element
+
+    - XHTML attributes
+        - attribute names must be in lowercase
+        - attribute values must be quoted
+        - attribute minimization is forbidden

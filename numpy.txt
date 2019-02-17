@@ -1,0 +1,2 @@
+- Baiscs
+  - numpy.newaxis: increase the dimension of existing array

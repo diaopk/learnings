@@ -1,0 +1,182 @@
+* ways to write comments
+    - <!-- comments go here -->
+    - # commment goes here
+    - /* this is the comment
+      */
+
+* String
+    using echo
+    - double qutaions braced be single quations ' " " '
+    - echo string + variable can be: echo "hello $world";
+      or directly echo $variable;
+    - string can be concatenated like the following
+      echo $variable1 . ', ' . $variable2;
+    
+    - JSON stuff
+    - json_encode() is the function to convert php objects into JSON
+      string
+      $obj->name = "John";
+      $obj->age = 30;
+      jsonObj = json_encode($obj);
+    - json_decode() is the function that takes a JSON encoded string
+      convert it into a php variable
+      
+      mixed json_decode (string $json [, bool $assoc = false [, int $depth = 512 [, int $options = 0 ]]])
+    
+- Constants
+    - define ('NAME', value);
+    - to use the constant just simply type the name of the constant
+      e.g. echo NAME;
+
+* Array
+    - There are some built-in types of arrays
+      $_GET, $_POST, $_REQUEST, $SERVER, $_ENV, $_SESSION AND $_COOKIE
+    - to echo an element from an array along with strings
+      echo "string here with {$array['hello']}";
+    - is_array() to check if the variable is an array or not
+    - Creating Arrays:
+      1. $people[] = "Carterr";
+             $people[] = "Kobe";
+             $people[] = "Allen";
+
+             this array will automatically create keys for the 
+             corresponding values based on the order
+
+             $people[0] == "Carter" = true;
+
+      2. By specifying the keys and values to create an array:
+             $people['me'] = 'Junli';
+             $people['my_girlfriend'] = 'Yingzhi';
+             $people[2] = "mama"; // This is also possible
+
+             Just be careful to the key if it has already had a value
+
+      3. Using array() function to create an array:
+             $people = array(
+        'me' => 'Junli',
+        'my_girlfriend' => 'Yingzhi',
+                         );
+             Or 
+             $people = array();
+             $people[] = 'Junli';
+             $people[] = 'Yingzhi';
+             
+             Accessing an array is the same way to access to above arrays
+
+      4. Echoing out an array
+      foreach($array as $key => $value) {
+        echo "<p value=\"$key"\>$value</p>";"
+      }
+    
+      5. An array can be nested
+      $people = array(
+        'me' => 'Junli',
+        'my_girlfriend' => 'Yingzhi',
+                         );
+      $family = array(
+        'members' => $people,
+        'others' => XXX.
+            );
+
+    - explode() and implode()
+      explode(sepeartor, $string)
+      implode(glue, $array)
+
+* OOP
+    - To define a class
+    class class_name {
+        // whatever inside the class
+        static constant NAME = "Kobe";
+
+        public $var;
+
+        function __construct(argument)
+        {
+            // Do something
+        }
+    }
+
+    - To access members or functions of a class:
+      $obj = new class_name();
+      $obj->property;
+      $obj->function(argument);
+
+    - To access static members or functions:
+      $obj = new class_name();
+      $obj::static_property;
+      $obj::static_function(argument);
+
+    - An example of OOP with connection to mysql
+      $mysqli = new mysqli(db_host, db_username, db_password, db_name);
+      if ($mysqli->connect_error) {
+        echo $mysqli->connect_error;
+        unset($mysqli);
+      } else 
+        $mysqli->set_character('utf-8');
+
+* Built-in functions
+    - header()
+      This function sends a raw HTTP header to a client
+      header() must be called before any actual output is sent
+           
+      header(string, replace, http_response_code)
+
+      - Prompte a user to save a generated PDF file
+        Content-Disposition: attachment
+    - rtrim(output_string, needed_to_be_replaced_string)
+      This function returns a new string after removing string
+
+* mysql and php
+    - mysqli_connect(hostname, username, password, db_name)
+    - mysqli_connect_error() : display connection error
+    - mysqli_set_charset($db_connection, charSet) : set the encode for
+      the content of this connection
+      If fail to do this, content of this connection will use default
+      character set.
+      For example:
+        $dbc = @mysqli_connect (....) OR die ('message' . mysqli_connect_error());
+        mysqli_set_charset($dbc, 'utf8');
+
+    - mysqli_query(dbc, query);
+      dbc is the mysql connectoin, and query is the mysql query in 
+      string
+
+    - mysqli_fetch_array(query, constant) : This function handle SELECT
+      query results in an array. Constants are the following:
+      MYSQLI_ASSOC - $row['column_name']
+      MYSQLI_NUM - $row[0]
+      MYSQLI_BOTH - $row[0] or $row['column_name']
+
+      for example:
+      $query = 'SELECT name FROM people;';
+      $result = @mysqli_query (dbc, $query);
+      if ($result) { // query ran ok
+          while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            echo '<p>'.$row['name'].'</p>';
+          }
+      }
+
+    - mysqli_real_escape_string(dbc, data) : This function makes data
+      safe to use in a query by escaping what could be problematic 
+      characters. This function usually used in the the getting data
+      from a form.
+      
+      for example:
+      if (!empty($_POST['name'])) {
+        $name = mysqli_real_escape_string($dbc, trim($_POST['name']]));
+      }
+
+    - mysqli_num_rows(result) : this function count the number of 
+      records returned used before fetching records using 
+      mysqli_fetch_array() function.
+
+    - mysqli_close(dbc) : close the connection to mysql when queries 
+      finish. This functoin is not required because php will
+      automatically close the mysql connection at the end of a script
+
+* Sending value to a script
+    - To append multiple values to a URL use this syntax: 
+      page.php?name1=value1&name2=value2&name3=value3.
+
+    - the string being sent should be encoded to ensure that the value
+      is handled properly. Usually use urlencode()

@@ -1,0 +1,86 @@
+Css basic goes here:
+
+Selector:
+	Universal : * {}
+	Type : h1 {}, p {},...
+	Class : .note {}, .yyy {}
+	ID : #note {}
+	Child : li>a {}
+	Descendant : p a {}
+	
+Color : 
+	color : 
+	background-color : 
+		can be the following:
+			opacity : 0.5
+			rgba(0, 0, 0)
+			hsl(HUE, SATURATION, LIGHTNESS)
+			hsla (HUE, SATURATION, LIGHTNESS, ALPHA)
+Font:
+	font-family : Georgia...
+	font-size : pixels(px), precentage(&), ems(em)
+	font-weight : normal, bold
+	font-style : normal, italic, oblique
+	text-transform : uppercase, lowercase, capitalize
+	text-decoration : none, underline, overline, line-through, blink
+	line-height : number(em)
+	letter-spacing : 
+	word-spacing : 
+	text-align : left, right, center, justify
+	vertical-align : 
+	text-indent : push text to right o negative value to left
+	text-shadow : value(left ot right px) value(top or bottom px) value(blur px) color
+	:first-letter, :first-line, :link, :visited
+	:hover : hovering over an element
+	:active : an element is being activated or clicked
+	:focus : 
+
+Boxs:
+	width, height: number(px or precentage)
+	min-width, min-height
+	overflow : hidden, scroll, auto
+	border : width(px) style color 
+		Every box has a border. The border separates the edge of one box from another
+	border-width : thin, medium, thick and any number
+	border-style : solid, dotted...
+	border-color > border-top-color: 
+	board-redius: px or width(px) height(px)
+
+	margin :top right bottom left
+		 Margins sit outside the edge of the border. You can set the width of a margin to reate a gap bewteen the borders of two adjacent boxes.
+	
+	padding : top right bottom left
+		padding is the space between the border of a box and any content contained within it. Adding padding can increase the readability of its content.
+	
+	display : inline, block, inline-block and none
+	visibility : hidden and visible
+	box-shadow: horizonal(px) vertical(px) blur(px) spread(px) color
+	
+Lists, Tables and Forms:
+
+	list-style-type: (unordered: none, disc, circle and square) (ordered: decimal, decimal-leading-zero, lower-alpha, upper-alpha, lower-roman and upper-roman)
+	list-style-image: url("")
+	list-style-position: outside and inside
+	list-style: position type
+	
+	tabl:
+	empty-cells: show, hide and inhert
+	border-spacing: width(px) height(px)
+	bprder-collapse: collapse and separate	
+
+Layout:
+	position: static, relative, absolute, fixed, z-index, float: left, right;
+	clear(no element should touch the left or right hand side): left, right, both and none;
+	
+Image:
+
+Media:
+  @media screen and (min-width: 30rem) and (max-width: 5rem)
+  this means if the monitor is screen, minimal width is 30 rem and maximum width is 5rem
+
+	@media (scripting: none) {} 
+		means Javascript is not working
+	@media (scripting: enable) {}
+		means Javascropt is working
+	Or .js {} this is for level 4 and i don't know what the fuck it is
+

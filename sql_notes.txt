@@ -1,0 +1,129 @@
+1. CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';
+
+2. Grant the permission to the created user to access database
+    GRANT ALL PROVILEGES ON databasename.* TO 'username'@'localhost' with option;
+    FLUSH PRIVILEGES;
+
+    SHOW GRANTS FOR 'username'@'localhost';
+
+3. Show users
+    SELECTE User FROM mysql.user;
+
+    DROP USER 'username'@'localhost';
+
+* Data Type
+    TEXT data types
+    - CHAR[] : a fxed-length field from 0 to 255 characters long
+    - VARCHAR[] : a variable-length from 0 to 65,535 characters long
+        char will always be stored as a string the length of the 
+        column(using spaces to pad it, these space will be removed
+        when you retrived the stored value from the database)
+        varchar string stored in varchar column will reuqire only 
+        as much space as the string itself. So the word cat in a
+        VARCHAR(10) column requires 4 bytes of space, but in char 
+        it requires 10 bytes.
+
+    - TINYTEXT: holds a String with maximum length of 255 characters
+    - TEXT: holds a string with maximum length of 65,535
+    - BLOG: for binary large objects, holds up to 65,535 bytes of data
+    - MEDIUMTEXT holds a string with maximum length of 16,777,215 characters
+
+    Number data types:
+    - TINYINT(size)[] : mysql boolean type with 0 meaning false, with 1 
+                  meaning true.
+                  -128 to 127 normal. 0 to 255 unsigned.
+    - SMALLINT(size): -32768 to 32767 normal. 0 to 65535 unsigned.
+    - NEDIUMINT(size): -838,8608 to 838,8607.
+    - INT(size): -2147483648 to 2147483647 normal. 0 to 4294967295 UNSIGNED*.
+
+
+    DATE, DATETIME : 
+    - DATE() : stored in the format of YYYY-MM-DD
+    - DATETIEM(): stord in the format of YYYY-MM-DD HH:MM:SS
+    - TIMESTAMP():
+    - TIME(): A time. Format: HH:MI:SS
+    - YEAR(): A year in two-digit or four0digit format
+
+    * Column properties can have default value by using default keyword
+      behind the properties
+      forexample: 
+        gender ENUM('M', 'F') default 'F'
+
+    * NOT NULL to specify the column is not null UNSIGNED limits the data to postive number or zero.
+
+* Table creation
+    - CREATE TABLE table_name ();
+    - column can have defualt value by using default keyword behind the
+      properties
+    - NOT NULL to specify the column is not null
+    - UNSIGNED limits the data to positve number or zero
+    - AUTO_INCREMENT automatically increase number when a new data 
+      inserted
+    - PRIMARY KEY(column_name) sets the primary key
+    - * DESCRIBE table_name shows the table sturcture
+
+* Table Deletion
+    - DROP TABLE table_name;
+
+* Inserting records
+    - INSERT INTO table_name (column_1, column2, ...)
+      VALUES
+      ('record1', 'record2', ...);
+    - Multiple insertion is possible
+      INSERT INTO table_name (column1, column2)
+      VALUES
+      (record1, recored2),
+      (record1.1, recored2.2);
+
+    - Mysql funtions:
+        - SHA1() : is a function to encrypt data
+          This function is always exactly encrypted string that is
+          40 characters long, this is why the password column is 
+          defined as CHAR(40)
+          
+        - MD5() : used in the earier varsion of mysql. This
+              function use a different algotithm, and returns 
+              a 32-character long string. So if using MD5() 
+              you can specify the password column defined as
+              a CHAR(32) instead.
+
+        - NOW() : this function is handy for populating data, time
+              and timestamp columns. It returns the current 
+              time on the server.
+
+        - AES_ENCRYPT() : This function takes two arguments, first
+                                  the data being stored, second a salt 
+                                  argument. 
+                                  For example: 
+                                        INSERT INTO users (pass)
+                                        VALUES (ASE_ENCRYPT('password', 'dahidhanwdiwa121'));
+                                  the encryped data returned by this 
+                                  function wil be in binary format. So pass
+                                  column should be defined as binary type.
+                                  In a addtion, salt argument will use to
+                                  decrypt data so it should be stored in
+                                  the somewhere as well such as database 
+                                  even in the same row of the record.
+                                  And it should be unique salt, and the
+                                  longer the salt the better.
+
+        - AES_DECRYPT() : takes column name and salt argument
+          SELECT * FROM users WHERE AES_DECRYPT(pass, 'salt') = 'pass';
+          is equivalent to 
+          SELECT * FROM users WHERE AES_ENCRYPT('mypass', 'salt') = pass;
+
+* TABLE MODIFICATION
+  - Modify column
+    - ALTER TABLE table_name CHANGE column data_type
+
+* Update records
+    - UPDATE table_name SET column='new_value' WHERE column='where_
+      should_be_updted';
+
+* Determine the Structure of a table
+    - sqlite3: .schema table_name;
+    - Oracle DB2: desc table_name;
+    - MySQL: describe table_name;
+
+* Import Database
+    - mysql -u root -p database_name < sqlfile.sql
