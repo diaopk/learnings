@@ -1,0 +1,15 @@
+- Derivates (导数）
+  - dx means the increased difference of x
+    - the area of shape = y1*dx + y2*dx + ..., when dx -> oo
+  - dy means the increased difference of y
+
+  - learns stuff
+    - f(x) = x^2
+      when dy->oo and dx->oo, ab is the slop line（切线）.
+      f'(x) = dy/dx, 导数也被称为微商，微分之商
+
+    - dy = f'(x)*dx
+      微分是一个函数，不是一个数而dx=x也是一个函数
+      微分使用线性函数佢逼近原函数
+
+      微分是函数的局部线性近似，导数是这个线性函数的系数。其意义是变化的具体数值

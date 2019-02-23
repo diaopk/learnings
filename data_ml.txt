@@ -58,3 +58,42 @@
   - Similarity based learning
   - Probability based learning
   - Error based learning 
+    - Important algorithms
+      - gradient descent known as guided search approach
+        - randomly select a point from error surface, calculate the slop by 
+          determining the derivative of the function used to generate it. Do it again
+          to a random point and now we can get the direction where to get the point.
+          Keeping processing until the slop is 0.
+
+    - Terms 
+      - weight space
+      - error surface
+      - global minimum of the error surface -> the optimal set of weights (w[0],w[1])
+        - The bottom of the error surface has no slop, which the derivate of the func
+          is => 0. We can then use differenciate method to get the bottom point 
+          such that we can get the optimal weights.
+
+    - simple linear regression model
+      - finding the best estimate slop and intercept by computing errors
+      - Mw(d) = w[0] + w[1] * d[1]
+        where w is the vector(w[0], w[1]), the parameters w[0] and w[1] are refered
+        to as weights, d is an instance defined by a single descriptive feature d[1].
+        and Mw(d) is the prediction output by the model for the instance d.
+      - error function: captures the error between the predictions made by a model 
+        and the actual values in a training dataset
+
+      - Example
+        size    rental price    model prediction    error   squared error
+        500         320               316.47          3.53      12.46
+        550         380               347.47          32.53     1058.2
+        ...
+
+        L2(Mw, D) = 1/2 * SUM(squared_error) = 2837.08
+
+    - Multivariable Linear Regression.
+      - formula
+        Mw(d) = w[0]+w[1]*d[1] + w[2]*d[2] + ...
+              = w[0] + SUM(w[i]*d[i])
+
+              where w*d is the dot product of vectors w and d. The dot product of two
+              vectors is the sum of the products of their corresponding elements.
