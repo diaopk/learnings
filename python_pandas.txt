@@ -18,3 +18,7 @@
 - Selecting and locating
   # select rows based on a value
   x.loc[x[colunm_name] == value]
+  x.loc[x[column_name].str.contains(str_value)]
+  x[x[column_name].str.contains(str_value)]
+
+  x[x[column_name].isin(list)]
