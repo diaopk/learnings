@@ -68,6 +68,18 @@
     - Terms 
       - weight space
       - error surface
+      - Cost function
+        - is a function maps event or values of one or more variables onto a real 
+          number.
+        - The lower the result, the more desireable, meaning that the predicted 
+          linear regression model has a best fit for the problem.
+        - Calculate by:
+          1/2m * ∑(Xi-Yi)^2
+          where m is the sample size
+                xi is the predicted value
+                yi is the real value.
+                the result is a number.
+
       - global minimum of the error surface -> the optimal set of weights (w[0],w[1])
         - The bottom of the error surface has no slop, which the derivate of the func
           is => 0. We can then use differenciate method to get the bottom point 
@@ -97,3 +109,43 @@
 
               where w*d is the dot product of vectors w and d. The dot product of two
               vectors is the sum of the products of their corresponding elements.
+
+- Types of learings
+  - supervised learning 
+    - given a dataset containing a label to indicate if the orginal ones are true or
+      not (binary variables).
+  - unsupervised learning 
+    - without giving any labels from the dataset. It's aim is to find the structure
+      if the dataset expecially for unstructed data.
+    - including finding what 
+      - most relevant features
+      - hidden parttern
+
+    - used in clustering problem
+      - when we have target clustered, we will spend most of stuff on the features.
+
+- Ensamle Methods
+  - decision tree
+  - Random Forest
+  - Ada Boost
+    - In contrast with random forest, adaboost is usually just a node and two lefs.
+    - a tree will one node and two leaves is called stump
+    - In Ada Boost there are forest of stumps.
+    - Three ideas behind:
+      - combines a lot of 'weak learners' to make clasifications. The weak learners
+        are almost aways stumps.
+      - Some stumps get more say in the classification than others.
+      - Each stump is made by taking the previous mistakes into accounts.
+    - It starts with building short tree
+    - The amount of say that the stump has on the final output is based on how well
+      it compensated for those previous errors.
+
+  - Graident Boost
+    - builds fixed szied trees based on the previous tree's errors, but unlike 
+      AdaBoost, each tree can be larger than a stump.
+    - Scale all the trees by the same amount.
+    - Then Gradient Boost builds another tree based on the errors made by the 
+      previous tree.
+    - The predicted value may be very accurate. In other words, we have low Bias, 
+      but probably very high variance. Uses learning rate to deal with this problem
+  - 

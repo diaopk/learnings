@@ -22,3 +22,6 @@
   x[x[column_name].str.contains(str_value)]
 
   x[x[column_name].isin(list)]
+
+- Modifying the dataframe or series
+  - df.at[row_num, col_num] = new_value

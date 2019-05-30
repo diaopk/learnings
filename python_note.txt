@@ -329,6 +329,10 @@ Object Orientation
           object. Generator expressions have a form similar to a list 
           comprehension, but are enclosed in parentheses rather than square
           brackets.
+        - The idea behind Generators is that the generators don't store all the
+          values in memory and they can be only iterated once.
+        - The yield is a keyword used like return but it return a generator. When
+          call the generator function, the code inside the function does not run.
 
     - Examples:
         def generateItems(seq):

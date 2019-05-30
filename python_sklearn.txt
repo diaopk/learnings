@@ -1,0 +1,12 @@
+- Text mining
+  - sklearn.feature_extraction.text
+    - CountVectorizer/TfidfVectorizer - some key functions 
+      - fit(): return paramaters in text mining they are like word occurences and 
+        store them in internal states.
+      - transform: call a defined function to the raw data to form a tranining data
+      - fit_transform(): combine with fit() and transform()
+      - CountVectorizer().vocabulary_: return terms and their mapping indices.
+      - tranform().toarray(): depending on how many rows of words input, returns an
+        array that represent the number of occurences baesd on the 
+        CountVectorizer().vocabulary_.keys() and display the occurrences number in
+        the length of row.

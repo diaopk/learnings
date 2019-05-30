@@ -1,0 +1,34 @@
+- Basic Structure
+  - Inputs -> hidden layers -> outputs
+  - Terms
+    - L: number of layers
+    - Ni: number of neuron in ith layer excluding the bias unit, where i=1, 2,...
+    - ai(j): the output of the jth neuron in ith layer
+    - Wi(j): the weight of the jth neuron in ith layer.
+
+- Truth table used
+  - AND
+    X1  X2  X1_and_X2   a
+    0   0   0           0
+    0   1   0           0
+    1   0   0           0
+    1   1   1           1
+
+  - OR
+    X1  X2  X1_or_X2    a
+    0   0   0           0
+    0   1   1           1
+    1   0   1           1
+    1   1   1           1
+
+  - NOT
+    X1  not_X1    a
+    0   1         1
+    1   0         0
+
+  - XNOR
+    X1  X2  X1_XNOR_X2
+    0   0   1
+    0   1   0
+    1   0   0
+    1   1   1
